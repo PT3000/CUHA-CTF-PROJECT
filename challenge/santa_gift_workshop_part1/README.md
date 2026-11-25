@@ -7,7 +7,7 @@
 | 분야 | Crypto |
 | 난이도 | Medium |
 | 핵심 개념 | XOR 비트 연산, ASCII, 바이트, 16진수 |
-| 첨부파일 | `prob.py`, `암호화.txt` |
+| 첨부파일 | `prob.py`, `encrypted.txt` |
 | 플래그 형식 | `Xmas{...}` |
 
 ## 문제 설명
