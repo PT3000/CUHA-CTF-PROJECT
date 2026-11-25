@@ -1,0 +1,6 @@
+*
+!plugins/
+!plugins/christmas_tree/
+!plugins/christmas_tree/**
+**/__pycache__/
+**/*.py[cod]
