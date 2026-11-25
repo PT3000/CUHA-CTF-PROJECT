@@ -35,7 +35,7 @@ CORD_IDS = {"8", "9"}
 DEMO_GROWTH_THRESHOLDS = (0, 3, 6, 10, 15)
 MAX_PLACEMENTS = 256
 MAX_ACTION_BYTES = 96 * 1024
-ASSET_REFERENCE = re.compile(r"\./([a-z][a-z0-9-]*\.(?:css|js|png|jpg))")
+ASSET_REFERENCE = re.compile(r"\./([a-z][a-z0-9-]*\.(?:css|js)|images/[a-z][a-z0-9-]*\.(?:png|jpg))")
 blueprint = Blueprint("christmas_tree", __name__, url_prefix="/christmas-tree")
 
 
@@ -422,7 +422,7 @@ def page():
     return send_from_directory(ASSETS, "index.html", max_age=0)
 
 
-@blueprint.get("/<name>")
+@blueprint.get("/<path:name>")
 def asset(name):
     if name not in _settings().catalogue.assets:
         abort(404)

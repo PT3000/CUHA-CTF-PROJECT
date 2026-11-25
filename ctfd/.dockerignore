@@ -1,10 +1,6 @@
 *
-!ctfd_tree.py
-!ctfd_tree_judging.py
-!ctfd_tree_judging.html
-!index.html
-!demo.css
-!demo.js
-!scene-export.js
-!*.png
-!*.jpg
+!plugins/
+!plugins/christmas_tree/
+!plugins/christmas_tree/**
+**/__pycache__/
+**/*.py[cod]

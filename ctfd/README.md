@@ -2,6 +2,12 @@
 
 공식 CTFd 3.8.9 이미지에 트리 꾸미기 플러그인을 추가합니다. CTFd가 플래그를 채점하고, 플러그인이 팀별 정답 기록을 읽어 선물과 꾸미기 포인트를 지급합니다. 트리 배치, 보유 장식, 포인트는 MariaDB에 저장합니다.
 
+## 디렉터리 구조
+
+- `Dockerfile`, `docker-compose.yml`, `.env.example`은 운영 환경을 구성합니다.
+- `plugins/christmas_tree/`에는 CTFd 플러그인과 운영진 심사 코드가 있습니다.
+- `plugins/christmas_tree/templates/`에는 심사 화면, `plugins/christmas_tree/assets/`에는 트리 화면과 이미지가 있습니다.
+
 ## 실행
 
 1. Docker Compose가 설치된 환경에서 이 `ctfd` 디렉터리로 이동합니다.
