@@ -1,0 +1,55 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="container my-4">
+  <h1>크리스마스 트리 심사</h1>
+  <p>팀 트리를 열어 보고 0~100점으로 평가하세요. 같은 팀에 다시 제출하면 내 점수가 갱신됩니다.</p>
+  <p>CTFd 점수 {{ solve_weight }}% · 트리 심사 {{ art_weight }}%. 팀별 심사 평균 순위에 따라 배점을 차등 지급합니다.</p>
+  {% if saved %}
+  <p class="alert alert-success" role="status">심사 점수를 저장했습니다.</p>
+  {% endif %}
+  {% if rows %}
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">순위</th>
+          <th scope="col">팀</th>
+          <th scope="col">CTFd 점수</th>
+          <th scope="col">심사 평균</th>
+          <th scope="col">심사 순위</th>
+          <th scope="col">합산 점수</th>
+          <th scope="col">내 심사 점수</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td>{{ row.rank }}</td>
+          <th scope="row">
+            <a href="{{ url_for('christmas_tree.page', review_team=row.team.id) }}" target="_blank" rel="noopener">{{ row.team.name }} 트리 보기</a>
+          </th>
+          <td>{{ row.score }} <small>({{ "%.2f"|format(row.solve_points) }}점)</small></td>
+          <td>{% if row.art_average is not none %}{{ "%.2f"|format(row.art_average) }} ({{ row.vote_count }}표){% else %}미심사{% endif %}</td>
+          <td>{% if row.art_rank is not none %}{{ row.art_rank }}위 <small>({{ "%.2f"|format(row.art_points) }}점)</small>{% else %}—{% endif %}</td>
+          <td>{{ "%.2f"|format(row.total) }}</td>
+          <td>
+            <form method="post" action="{{ url_for('christmas_tree_judging.vote') }}" class="d-flex align-items-center">
+              <input type="hidden" name="nonce" value="{{ nonce }}">
+              <input type="hidden" name="team_id" value="{{ row.team.id }}">
+              <input type="number" name="score" min="0" max="100" step="1" required
+                     class="form-control mr-2" aria-label="{{ row.team.name }} 심사 점수"
+                     value="{{ row.own_vote if row.own_vote is not none else '' }}">
+              <button type="submit" class="btn btn-primary">저장</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>심사할 팀이 아직 없습니다.</p>
+  {% endif %}
+</div>
+{% endblock %}

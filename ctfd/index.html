@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="플래그로 묘목을 세계수로 키우고 겨울 풍경을 장식하는 크리스마스 CTF 데모">
+  <meta name="description" content="팀이 함께 문제를 풀고 겨울 풍경을 꾸미는 CTFd 크리스마스 트리">
   <meta name="theme-color" content="#19263b">
-  <title>크리스마스 트리 꾸미기 · CTF</title>
+  <title>크리스마스 트리 꾸미기 · CTFd</title>
   <link rel="stylesheet" href="./demo.css">
   <script src="./demo.js" defer></script>
   <script src="./scene-export.js" defer></script>
 </head>
-<body data-starting-points="30000">
+<body>
   <header class="masthead">
     <div class="masthead-inner">
-      <div class="wordmark"><span aria-hidden="true">✦</span> CTF</div>
+      <div class="wordmark"><span aria-hidden="true">✦</span> CTFd</div>
       <div class="wallet">
         <div class="wallet-balance">
-          <span class="wallet-label">보유 포인트</span>
-          <div><strong id="point-balance" aria-live="polite">30,000</strong> <span class="wallet-unit">pt</span></div>
+          <span class="wallet-label">장식 포인트</span>
+          <div><strong id="point-balance" aria-live="polite">—</strong> <span class="wallet-unit">pt</span></div>
         </div>
         <a class="shop-jump" href="#shop">장식 상점</a>
       </div>
@@ -36,27 +36,27 @@
       <section class="panel tree-panel" aria-labelledby="tree-title">
         <div class="panel-heading">
           <div class="tree-heading-title">
-            <h2 id="tree-title">내 트리</h2>
+            <h2 id="tree-title">팀 트리</h2>
             <span class="growth-badge" id="growth-name">묘목</span>
           </div>
           <div id="scene-picker" role="group" aria-label="배경 선택">
             <span class="scene-picker-label" aria-hidden="true">배경</span>
             <div class="scene-picker-options">
               <button type="button" data-scene-choice="outdoor" aria-pressed="true">집 밖</button>
-              <button type="button" data-scene-choice="indoor" aria-pressed="false">집 안</button>
+              <button type="button" data-scene-choice="indoor" aria-pressed="false" disabled>집 안</button>
             </div>
           </div>
           <div class="tree-heading-stats">
-            <span class="count" id="growth-next">다음 해금까지 3개</span>
+            <span class="count" id="growth-next"></span>
             <div class="count">배치 <strong id="placed-count">0</strong>개</div>
           </div>
         </div>
         <div id="growth-picker" role="group" aria-label="트리 단계 선택">
           <button type="button" data-growth-choice="1" aria-pressed="true"><span class="growth-choice-name">묘목</span><span class="growth-choice-threshold">기본</span></button>
-          <button type="button" data-growth-choice="2" aria-pressed="false" disabled><span class="growth-choice-name">어린 전나무</span><span class="growth-choice-threshold">플래그 3개</span></button>
-          <button type="button" data-growth-choice="3" aria-pressed="false" disabled><span class="growth-choice-name">성탄 전나무</span><span class="growth-choice-threshold">플래그 6개</span></button>
-          <button type="button" data-growth-choice="4" aria-pressed="false" disabled><span class="growth-choice-name">별빛 전나무</span><span class="growth-choice-threshold">플래그 10개</span></button>
-          <button type="button" data-growth-choice="5" aria-pressed="false" disabled><span class="growth-choice-name">세계수</span><span class="growth-choice-threshold">플래그 15개</span></button>
+          <button type="button" data-growth-choice="2" aria-pressed="false" disabled><span class="growth-choice-name">어린 전나무</span><span class="growth-choice-threshold"></span></button>
+          <button type="button" data-growth-choice="3" aria-pressed="false" disabled><span class="growth-choice-name">성탄 전나무</span><span class="growth-choice-threshold"></span></button>
+          <button type="button" data-growth-choice="4" aria-pressed="false" disabled><span class="growth-choice-name">별빛 전나무</span><span class="growth-choice-threshold"></span></button>
+          <button type="button" data-growth-choice="5" aria-pressed="false" disabled><span class="growth-choice-name">세계수</span><span class="growth-choice-threshold"></span></button>
         </div>
         <div class="tree-scene" data-growth="1" role="group" aria-label="트리와 장식을 놓을 수 있는 배경">
           <img src="./winter-glade.jpg" alt="" class="scene-illustration scene-exterior" draggable="false">
@@ -108,6 +108,7 @@
           <button type="button" id="remove-decoration" class="remove-button" disabled>장식 빼기</button>
           <button type="button" id="reset-layout" class="reset-button" disabled><span aria-hidden="true">↺</span> 배치 초기화</button>
           <button type="button" id="download-scene" class="download-button"><span aria-hidden="true">↓</span> PNG 저장</button>
+          <p id="layout-feedback" role="status"></p>
           <p id="scene-export-status" class="visually-hidden" role="status"></p>
         </div>
       </section>
@@ -115,18 +116,14 @@
       <div class="sidebar">
         <section class="panel flag-panel" aria-labelledby="flag-title">
           <div class="panel-heading">
-            <h2 id="flag-title"><span class="panel-icon flag-icon" aria-hidden="true"></span> 플래그 제출</h2>
-            <div class="count">해결 <strong id="solved-count">0</strong> / 15</div>
+            <h2 id="flag-title"><span class="panel-icon flag-icon" aria-hidden="true"></span> 문제 풀이</h2>
+            <div class="count">해결 <strong id="solved-count">—</strong> / <span id="challenge-count">—</span></div>
           </div>
-          <form id="flag-form" novalidate>
-            <label for="flag-input" class="visually-hidden">플래그</label>
-            <div class="flag-controls">
-              <input id="flag-input" type="text" placeholder="FLAG{test1}" aria-describedby="flag-help flag-feedback" spellcheck="false" autocomplete="off" autocapitalize="off">
-              <button type="submit">제출</button>
-            </div>
-            <p id="flag-help">테스트 <code>FLAG{test1}</code>–<code>FLAG{test15}</code> · 각 500pt</p>
-            <p id="flag-feedback" role="status"></p>
-          </form>
+          <div class="challenge-controls">
+            <a id="ctfd-challenges" target="_blank" rel="noopener" aria-disabled="true">CTFd 문제 목록</a>
+            <button type="button" id="refresh-team">팀 상태 새로고침</button>
+          </div>
+          <p id="team-feedback" role="status">팀 상태를 불러오는 중이에요.</p>
         </section>
 
         <section class="panel tray-panel" aria-labelledby="tray-title">
@@ -218,39 +215,39 @@
               <span class="ornament-icon ornament-sprite ornament-santa" aria-hidden="true"><img src="./season-santa.png" alt="" draggable="false"></span><span class="shop-name">산타 썰매 <small>750 pt <span class="shop-owned-count"></span></small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
-            <div class="shop-card" data-shop-id="red-bauble" data-name="빨간 방울" data-price="300" data-ornament-id="2" data-demo-quantity="3">
+            <div class="shop-card" data-shop-id="red-bauble" data-name="빨간 방울" data-price="300" data-ornament-id="2">
               <span class="ornament-icon ornament-sprite ornament-bauble" aria-hidden="true"><img src="./season-bauble.png" alt="" draggable="false"></span><span class="shop-name">빨간 방울 <small>300 pt <span class="shop-owned-count"></span></small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
-            <div class="shop-card" data-shop-id="silver-bell" data-name="은빛 종" data-price="300" data-ornament-id="3" data-demo-quantity="3">
+            <div class="shop-card" data-shop-id="silver-bell" data-name="은빛 종" data-price="300" data-ornament-id="3">
               <span class="ornament-icon ornament-sprite ornament-bell" aria-hidden="true"><img src="./season-bell.png" alt="" draggable="false"></span><span class="shop-name">은빛 종 <small>300 pt <span class="shop-owned-count"></span></small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
-            <div class="shop-card" data-shop-id="candy-cane" data-name="지팡이 사탕" data-price="300" data-ornament-id="5" data-demo-quantity="3">
+            <div class="shop-card" data-shop-id="candy-cane" data-name="지팡이 사탕" data-price="300" data-ornament-id="5">
               <span class="ornament-icon ornament-sprite ornament-candy" aria-hidden="true"><img src="./season-candy.png" alt="" draggable="false"></span><span class="shop-name">지팡이 사탕 <small>300 pt <span class="shop-owned-count"></span></small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
-            <div class="shop-card" data-shop-id="snowflake" data-name="눈꽃" data-price="300" data-ornament-id="4" data-demo-quantity="3">
+            <div class="shop-card" data-shop-id="snowflake" data-name="눈꽃" data-price="300" data-ornament-id="4">
               <span class="ornament-icon ornament-sprite ornament-snowflake" aria-hidden="true"><img src="./season-snowflake.png" alt="" draggable="false"></span><span class="shop-name">눈꽃 <small>300 pt <span class="shop-owned-count"></span></small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
-            <div class="shop-card" data-shop-id="gingerbread" data-name="진저브레드 맨" data-price="350" data-ornament-id="13" data-demo-quantity="3">
+            <div class="shop-card" data-shop-id="gingerbread" data-name="진저브레드 맨" data-price="350" data-ornament-id="13">
               <span class="ornament-icon ornament-sprite ornament-gingerbread" aria-hidden="true"><img src="./season-gingerbread.png" alt="" draggable="false"></span><span class="shop-name">진저브레드 맨 <small>350 pt <span class="shop-owned-count"></span></small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
-            <div class="shop-card" data-shop-id="pinecone" data-name="솔방울" data-price="300" data-ornament-id="14" data-demo-quantity="3">
+            <div class="shop-card" data-shop-id="pinecone" data-name="솔방울" data-price="300" data-ornament-id="14">
               <span class="ornament-icon ornament-sprite ornament-pinecone" aria-hidden="true"><img src="./season-pinecone.png" alt="" draggable="false"></span><span class="shop-name">솔방울 <small>300 pt <span class="shop-owned-count"></span></small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
-            <div class="shop-card" data-shop-id="holly" data-name="호랑가시나무 열매" data-price="300" data-ornament-id="15" data-demo-quantity="3">
+            <div class="shop-card" data-shop-id="holly" data-name="호랑가시나무 열매" data-price="300" data-ornament-id="15">
               <span class="ornament-icon ornament-sprite ornament-holly" aria-hidden="true"><img src="./season-holly.png" alt="" draggable="false"></span><span class="shop-name">호랑가시나무 열매 <small>300 pt <span class="shop-owned-count"></span></small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
-            <div class="shop-card" data-shop-id="gold-bauble" data-name="금색 방울" data-price="400" data-ornament-id="16" data-demo-quantity="3">
+            <div class="shop-card" data-shop-id="gold-bauble" data-name="금색 방울" data-price="400" data-ornament-id="16">
               <span class="ornament-icon ornament-sprite ornament-gold-bauble" aria-hidden="true"><img src="./season-gold-bauble.png" alt="" draggable="false"></span><span class="shop-name">금색 방울 <small>400 pt <span class="shop-owned-count"></span></small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
-            <div class="shop-card" data-shop-id="silver-bauble" data-name="은색 방울" data-price="400" data-ornament-id="17" data-demo-quantity="3">
+            <div class="shop-card" data-shop-id="silver-bauble" data-name="은색 방울" data-price="400" data-ornament-id="17">
               <span class="ornament-icon ornament-sprite ornament-silver-bauble" aria-hidden="true"><img src="./season-silver-bauble.png" alt="" draggable="false"></span><span class="shop-name">은색 방울 <small>400 pt <span class="shop-owned-count"></span></small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
@@ -259,7 +256,7 @@
         <section class="shop-group" aria-labelledby="shop-floor-title">
           <h3 id="shop-floor-title">바닥 장식</h3>
           <div class="shop-grid">
-            <div class="shop-card" data-shop-id="present" data-name="선물 상자 장식" data-price="300" data-ornament-id="10" data-demo-quantity="3">
+            <div class="shop-card" data-shop-id="present" data-name="선물 상자 장식" data-price="300" data-ornament-id="10">
               <span class="ornament-icon ornament-sprite ornament-present" aria-hidden="true"><img src="./season-present.png" alt="" draggable="false"></span><span class="shop-name">선물 상자 장식 <small>300 pt <span class="shop-owned-count"></span></small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
@@ -301,11 +298,11 @@
         <section class="shop-group" aria-labelledby="shop-fixtures-title">
           <h3 id="shop-fixtures-title">집 안 배경 장식</h3>
           <div class="shop-grid">
-            <div class="shop-card" data-shop-id="window" data-name="창문" data-price="500" data-effect="window" data-demo-locked="true">
+            <div class="shop-card" data-shop-id="window" data-name="창문" data-price="500" data-effect="window">
               <span class="ornament-icon effect-icon effect-fixture" aria-hidden="true">⊞</span><span class="shop-name">창문 <small>500 pt</small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
-            <div class="shop-card" data-shop-id="fireplace" data-name="벽난로" data-price="1000" data-effect="fireplace" data-demo-locked="true">
+            <div class="shop-card" data-shop-id="fireplace" data-name="벽난로" data-price="1000" data-effect="fireplace">
               <span class="ornament-icon effect-icon effect-fixture" aria-hidden="true">♨︎</span><span class="shop-name">벽난로 <small>1,000 pt</small></span>
               <button type="button" class="shop-action">구매</button>
             </div>
