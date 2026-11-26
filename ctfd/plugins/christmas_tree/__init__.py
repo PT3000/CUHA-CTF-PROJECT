@@ -16,6 +16,7 @@ from flask import (
     current_app,
     jsonify,
     redirect,
+    render_template,
     request,
     send_from_directory,
     session,
@@ -24,18 +25,23 @@ from flask import (
 from sqlalchemy.exc import IntegrityError
 
 from CTFd.models import Challenges, Solves, Teams, db
-from CTFd.plugins import register_user_page_menu_bar
 from CTFd.utils.config import is_teams_mode
 from CTFd.utils.user import get_current_user, is_verified
 
+from .site import register_site
+
 
 ASSETS = Path(__file__).resolve().with_name("assets")
+TREE_TEMPLATE = "plugins/christmas_tree/templates/site/tree.html"
 GIFT_ORNAMENT_IDS = ("1", "2", "3", "4", "5")
 CORD_IDS = {"8", "9"}
 DEMO_GROWTH_THRESHOLDS = (0, 3, 6, 10, 15)
 MAX_PLACEMENTS = 256
 MAX_ACTION_BYTES = 96 * 1024
-ASSET_REFERENCE = re.compile(r"\./([a-z][a-z0-9-]*\.(?:css|js)|images/[a-z][a-z0-9-]*\.(?:png|jpg))")
+ASSET_REFERENCE = re.compile(
+    r"\./([a-z][a-z0-9-]*\.(?:css|js)|images/[a-z][a-z0-9-]*\.(?:png|jpg))"
+    r"(?:\?v=[0-9a-f]{12})?"
+)
 blueprint = Blueprint("christmas_tree", __name__, url_prefix="/christmas-tree")
 
 
@@ -100,6 +106,11 @@ class TreeError(ValueError):
         self.status = status
 
 
+class TeamRequired(TreeError):
+    def __init__(self):
+        super().__init__("팀에 먼저 가입해 주세요.", 403)
+
+
 def _settings():
     return current_app.extensions["christmas_tree"]
 
@@ -114,28 +125,22 @@ def _integer_setting(name, default):
 def _team_identity():
     user = get_current_user()
     if user is None:
-        raise TreeError("CTFd에 로그인해 주세요.", 401)
+        raise TreeError("로그인해 주세요.", 401)
     if not is_teams_mode():
-        raise TreeError("트리 꾸미기는 CTFd 팀 모드에서 이용할 수 있어요.", 403)
+        raise TreeError("트리 꾸미기는 팀 모드에서 이용할 수 있어요.", 403)
     if user.banned or not is_verified():
         raise TreeError("이 계정으로 트리 꾸미기를 이용할 수 없어요.", 403)
-    if user.team is None:
-        raise TreeError("CTFd에서 팀에 먼저 가입해 주세요.", 403)
-    if user.team.banned:
-        raise TreeError("이 팀은 트리 꾸미기를 이용할 수 없어요.", 403)
-    return user.team.id, user.team.name
-
-
-def _review_identity():
-    user = get_current_user()
-    if user is None:
-        raise TreeError("CTFd에 로그인해 주세요.", 401)
-    if user.type != "admin" or user.banned:
-        raise TreeError("운영진만 다른 팀의 트리를 볼 수 있어요.", 403)
-    team_id = request.args.get("review_team", type=int)
-    team = Teams.query.filter_by(id=team_id, hidden=False, banned=False).one_or_none()
+    team = None
+    if user.team_id is not None:
+        team = (
+            db.session.query(Teams.id, Teams.name, Teams.banned)
+            .filter_by(id=user.team_id)
+            .one_or_none()
+        )
     if team is None:
-        raise TreeError("심사할 팀을 찾을 수 없어요.", 404)
+        raise TeamRequired()
+    if team.banned:
+        raise TreeError("이 팀은 트리 꾸미기를 이용할 수 없어요.", 403)
     return team.id, team.name
 
 
@@ -153,7 +158,7 @@ def _initial_snapshot(points):
     }
 
 
-def _confirmed_solves(team_id, challenge_ids):
+def _team_solve_progress(team_id, challenge_ids):
     eligible = db.session.query(Challenges.id).filter(Challenges.state == "visible")
     if challenge_ids:
         eligible = eligible.filter(Challenges.id.in_(challenge_ids))
@@ -162,27 +167,27 @@ def _confirmed_solves(team_id, challenge_ids):
         Solves.team_id == team_id,
         Solves.challenge_id.in_(eligible.statement),
     )
-    return {challenge_id for (challenge_id,) in confirmed}, total
+    thresholds = (
+        [(total * threshold + 14) // 15 for threshold in DEMO_GROWTH_THRESHOLDS]
+        if total else list(DEMO_GROWTH_THRESHOLDS)
+    )
+    return {challenge_id for (challenge_id,) in confirmed}, total, thresholds
 
 
-def _growth_thresholds(total):
-    if total == 0:
-        return list(DEMO_GROWTH_THRESHOLDS)
-    return [(total * threshold + 14) // 15 for threshold in DEMO_GROWTH_THRESHOLDS]
-
-
-def _reconcile_solves(snapshot, confirmed, thresholds, points_per_solve):
+def _solve_updates(snapshot, confirmed, thresholds, points_per_solve):
+    updates = {}
     rewarded = set(snapshot["rewardedChallengeIds"])
     new_ids = confirmed - rewarded
     if new_ids:
-        snapshot["rewardedChallengeIds"] = sorted(rewarded | new_ids)
-        snapshot["points"] += len(new_ids) * points_per_solve
-        snapshot["pendingGifts"] += len(new_ids)
+        updates["rewardedChallengeIds"] = sorted(rewarded | new_ids)
+        updates["points"] = snapshot["points"] + len(new_ids) * points_per_solve
+        updates["pendingGifts"] = snapshot["pendingGifts"] + len(new_ids)
 
     maximum_growth = sum(threshold <= len(confirmed) for threshold in thresholds)
     if snapshot["growth"] > maximum_growth:
-        snapshot["growth"] = maximum_growth
-        snapshot["layoutVersion"] += 1
+        updates["growth"] = maximum_growth
+        updates["layoutVersion"] = snapshot["layoutVersion"] + 1
+    return updates, maximum_growth
 
 
 def _purchase(snapshot, payload, catalogue):
@@ -312,7 +317,7 @@ def _json(payload, status=200):
     return response, status
 
 
-def _serialize(snapshot, confirmed, total, thresholds, team_name, read_only=False):
+def _serialize(snapshot, confirmed, total, thresholds, team_name):
     state = {key: value for key, value in snapshot.items() if key != "rewardedChallengeIds"}
     state.update(
         solved=len(confirmed),
@@ -322,24 +327,8 @@ def _serialize(snapshot, confirmed, total, thresholds, team_name, read_only=Fals
         csrfToken=session.get("nonce"),
         challengeUrl=url_for("challenges.listing"),
         teamName=team_name,
-        readOnly=read_only,
     )
     return state
-
-
-def _review_state():
-    try:
-        team_id, team_name = _review_identity()
-    except TreeError as error:
-        return _json({"error": str(error)}, error.status)
-
-    settings = _settings()
-    row = TreeState.query.filter_by(team_id=team_id).one_or_none()
-    snapshot = deepcopy(row.snapshot) if row else _initial_snapshot(settings.starting_points)
-    confirmed, total = _confirmed_solves(team_id, settings.challenge_ids)
-    thresholds = _growth_thresholds(total)
-    _reconcile_solves(snapshot, confirmed, thresholds, settings.points_per_solve)
-    return _json({"state": _serialize(snapshot, confirmed, total, thresholds, team_name, read_only=True)})
 
 
 def _team_request(payload=None):
@@ -349,6 +338,17 @@ def _team_request(payload=None):
         return _json({"error": str(error)}, error.status)
 
     settings = _settings()
+    if payload is None:
+        row = TreeState.query.filter_by(team_id=team_id).one_or_none()
+        if row is not None:
+            confirmed, total, thresholds = _team_solve_progress(team_id, settings.challenge_ids)
+            updates, _ = _solve_updates(row.snapshot, confirmed, thresholds, settings.points_per_solve)
+            if not updates:
+                return _json({"state": _serialize(row.snapshot, confirmed, total, thresholds, team_name)})
+
+        # End the unlocked read transaction before re-reading the rows under lock.
+        db.session.rollback()
+
     for _ in range(3):
         # Lock the existing parent row first. Concurrent initializers never compete for a missing state row.
         locked_team = (
@@ -362,14 +362,13 @@ def _team_request(payload=None):
             return _json({"error": "이 팀은 트리 꾸미기를 이용할 수 없어요."}, 403)
         row = TreeState.query.filter_by(team_id=team_id).with_for_update().one_or_none()
         snapshot = deepcopy(row.snapshot) if row else _initial_snapshot(settings.starting_points)
-        confirmed, total = _confirmed_solves(team_id, settings.challenge_ids)
-        thresholds = _growth_thresholds(total)
-        _reconcile_solves(snapshot, confirmed, thresholds, settings.points_per_solve)
+        confirmed, total, thresholds = _team_solve_progress(team_id, settings.challenge_ids)
+        updates, maximum_growth = _solve_updates(snapshot, confirmed, thresholds, settings.points_per_solve)
+        snapshot.update(updates)
 
         error = reward = None
         if payload is not None:
             try:
-                maximum_growth = sum(threshold <= len(confirmed) for threshold in thresholds)
                 reward = _apply_action(snapshot, payload, settings.catalogue, maximum_growth)
             except TreeError as caught:
                 error = caught
@@ -393,33 +392,28 @@ def _team_request(payload=None):
                 continue
             raise
 
-        state = _serialize(snapshot, confirmed, total, thresholds, team_name)
+        result = {"state": _serialize(snapshot, confirmed, total, thresholds, team_name)}
         if error:
-            return _json({"state": state, "error": str(error)}, error.status)
+            result["error"] = str(error)
+            return _json(result, error.status)
         if reward is not None:
-            return _json({"state": state, "reward": reward})
-        return _json({"state": state})
+            result["reward"] = reward
+        return _json(result)
 
     return _json({"error": "팀 트리가 갱신 중이에요. 잠시 후 다시 시도해 주세요."}, 409)
 
 
 @blueprint.get("/")
 def page():
-    reviewing = "review_team" in request.args
     try:
-        if reviewing:
-            _review_identity()
-        else:
-            _team_identity()
+        _team_identity()
+    except TeamRequired:
+        return redirect(url_for("teams.private", next=request.path))
     except TreeError as error:
         if error.status == 401:
             return redirect(url_for("auth.login", next=request.full_path))
-        if not reviewing and is_teams_mode():
-            user = get_current_user()
-            if user and user.team is None and not user.banned and is_verified():
-                return redirect(url_for("teams.private", next=request.path))
         abort(error.status, description=str(error))
-    return send_from_directory(ASSETS, "index.html", max_age=0)
+    return render_template(TREE_TEMPLATE), {"Cache-Control": "private, no-store"}
 
 
 @blueprint.get("/<path:name>")
@@ -431,15 +425,11 @@ def asset(name):
 
 @blueprint.get("/api/state")
 def state():
-    if "review_team" in request.args:
-        return _review_state()
     return _team_request()
 
 
 @blueprint.post("/api/action")
 def action():
-    if "review_team" in request.args:
-        return _json({"error": "심사 미리보기에서는 트리를 수정할 수 없어요."}, 403)
     if not request.is_json:
         return _json({"error": "JSON 요청을 보내 주세요."}, 415)
     if request.content_length is not None and request.content_length > MAX_ACTION_BYTES:
@@ -457,7 +447,8 @@ def action():
 
 
 def load(app):
-    catalogue = TreeCatalogue((ASSETS / "index.html").read_text(encoding="utf-8"))
+    markup, _, _ = app.jinja_loader.get_source(app.jinja_env, TREE_TEMPLATE)
+    catalogue = TreeCatalogue(markup)
     missing = {name for name in catalogue.assets if not (ASSETS / name).is_file()}
     if missing:
         raise ValueError(f"Missing Christmas tree assets: {', '.join(sorted(missing))}")
@@ -475,8 +466,4 @@ def load(app):
     )
     TreeState.__table__.create(bind=db.engine, checkfirst=True)
     app.register_blueprint(blueprint)
-    register_user_page_menu_bar("크리스마스 트리", "christmas-tree/")
-
-    from .judging import register_judging
-
-    register_judging(app)
+    register_site(app, ASSETS)
