@@ -1,0 +1,16 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+  <div class="jumbotron">
+    <div class="container"><h1>제출 현황</h1></div>
+  </div>
+
+  <div class="container py-4">
+    <dl class="row mb-4">
+      <div class="col-sm-4 mb-3"><dt>등록된 문제</dt><dd>{{ challenge_count }}</dd></div>
+      <div class="col-sm-4 mb-3"><dt>정답 제출</dt><dd>{{ solve_count }}</dd></div>
+      <div class="col-sm-4 mb-3"><dt>오답 제출</dt><dd>{{ wrong_count }}</dd></div>
+    </dl>
+    <a class="btn btn-primary" href="{{ url_for('admin.submissions_listing') }}">제출 로그 보기</a>
+  </div>
+{% endblock %}
