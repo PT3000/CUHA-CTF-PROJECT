@@ -67,6 +67,8 @@
       const source = element.src;
       if (!images.has(source)) images.set(source, imageDataUrl(source));
       clone.removeAttribute('srcset');
+      clone.removeAttribute('loading');
+      clone.removeAttribute('decoding');
       pendingImages.push(images.get(source).then((url) => { clone.src = url; }));
       return clone;
     }
@@ -151,7 +153,7 @@
       const modularFile = location.protocol === 'file:' && !scene.querySelector('#tree-art').src.startsWith('data:');
       status.classList.remove('visually-hidden');
       status.textContent = modularFile
-        ? 'PNG를 저장하려면 CTFd 서버의 트리 꾸미기 페이지를 열어 주세요.'
+        ? 'PNG를 저장하려면 대회 사이트에서 트리 꾸미기 페이지를 열어 주세요.'
         : 'PNG를 저장하지 못했어요. 다시 시도해 주세요.';
     } finally {
       button.disabled = false;

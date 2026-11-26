@@ -1,0 +1,611 @@
+.footer a[href="https://ctfd.io"] {
+  display: none;
+}
+
+body:has(> .navbar #base-navbars) {
+  --season-serif: Batang, "AppleMyungjo", Georgia, serif;
+  --season-ink: #332820;
+  --season-paper: #fcf6ea;
+  --season-paper-edge: #eee1cc;
+  --season-line: #c5a46e;
+  --season-green: #214b3d;
+  --season-card: #fffaf0;
+  --season-solved: #e1eddf;
+  --season-solved-ink: #1b4234;
+  --season-gold: #eacb87;
+  --bs-link-color-rgb: 130, 47, 61;
+  --bs-link-hover-color-rgb: 86, 31, 43;
+  min-height: 100vh;
+  color: var(--season-ink);
+  background:
+    radial-gradient(circle, #b4865e19 0 1px, transparent 1.6px) 0 0 / 23px 23px,
+    radial-gradient(ellipse at 50% 7rem, var(--season-paper) 10%, transparent 72%),
+    var(--season-paper-edge);
+}
+
+[data-bs-theme="dark"] body:has(> .navbar #base-navbars) {
+  --season-ink: #f5e9d8;
+  --season-paper: #2c3430;
+  --season-paper-edge: #1e2924;
+  --season-line: #9a7b53;
+  --season-green: #b9dcc2;
+  --season-card: #313a33;
+  --season-solved: #314b3b;
+  --season-solved-ink: #dfefde;
+  --bs-link-color-rgb: 244, 170, 176;
+  --bs-link-hover-color-rgb: 255, 220, 214;
+}
+
+:root:not([data-bs-theme="dark"]) body:has(> .navbar #base-navbars):has(#challenge-window) {
+  background:
+    radial-gradient(circle, #a9774d16 0 1px, transparent 1.6px) 0 0 / 23px 23px,
+    radial-gradient(ellipse 29rem 25rem at left 18rem, #e8aa602c, transparent 78%),
+    radial-gradient(ellipse 34rem 26rem at right bottom, #ebba7750, transparent 76%),
+    #FAF3E6;
+}
+
+.navbar.fixed-top.bg-dark:has(#base-navbars) {
+  --bs-dark-rgb: 24, 55, 43;
+  --bs-navbar-color: #f3e7d1;
+  --bs-navbar-hover-color: #ffe1a2;
+  --bs-navbar-toggler-border-color: #eacb8770;
+  background-image: linear-gradient(110deg, #274d3b, #173327);
+  box-shadow: inset 0 -2px #c19959, 0 3px 12px #281c1f24;
+}
+
+.navbar:has(#base-navbars) .navbar-toggler {
+  margin-inline-start: auto;
+}
+
+:where(body:has(> .navbar #base-navbars)) main > .jumbotron {
+  margin: clamp(.8rem, 2.5vw, 1.8rem) auto 0;
+  width: min(calc(100% - 1.75rem), 75rem);
+  border: 1px solid var(--season-line);
+  border-radius: .7rem;
+  background: linear-gradient(112deg, #203c30, #305745 52%, #263b3b);
+  color: #fff5dd;
+  box-shadow: 0 .45rem 1.4rem #3d292322;
+}
+
+body:has(> .navbar #base-navbars) .jumbotron h1,
+main:has(#challenge-window) .category-header h3,
+#challenge-window .challenge-name {
+  font-family: var(--season-serif);
+  font-weight: 700;
+}
+
+main:has(#challenge-window) > .jumbotron {
+  --snowman-travel-time: 24s;
+  --snowman-start-delay: -8s;
+  --room-window-width: min(62%, 46rem);
+  --room-window-side: clamp(1.2rem, 4vw, 3.5rem);
+  --room-window-top: 1.22rem;
+  --room-window-bottom: 1.15rem;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: clamp(12rem, 25vw, 18rem);
+  padding: 2.5rem clamp(1.6rem, 6vw, 5rem);
+  overflow: hidden;
+  text-align: left;
+  background:
+    radial-gradient(ellipse at 16% 73%, #edb25f36, transparent 37%),
+    radial-gradient(ellipse at 76% 15%, #f4c2782b, transparent 62%),
+    repeating-linear-gradient(90deg, #e2c89b12 0 1px, #c9aa7c07 1px .9rem, transparent .9rem 1.8rem),
+    linear-gradient(110deg, #203d31, #38533d 72%, #294437);
+}
+
+.challenge-room-window, .challenge-room-trim, .challenge-room-garland {
+  position: absolute;
+  inset-inline-end: var(--room-window-side);
+  width: var(--room-window-width);
+  pointer-events: none;
+}
+
+.challenge-room-window, .challenge-room-trim {
+  inset-block: var(--room-window-top) var(--room-window-bottom);
+  border-radius: .28rem;
+}
+
+.challenge-room-window {
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 90% 83%, #ffb56b2c, transparent 48%),
+    radial-gradient(ellipse at 64% 3%, #ffd18d27, transparent 49%),
+    radial-gradient(ellipse at 48% 130%, #fff7e7 0 68%, transparent 69%) -2rem bottom / 77% 1.7rem no-repeat,
+    radial-gradient(ellipse at 55% 140%, #dce5e0 0 67%, transparent 68%) right bottom / 79% 2.8rem no-repeat,
+    linear-gradient(112deg, #213d30, #3f6352 71%, #354d49);
+}
+
+.challenge-room-snow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle, #fff8dc9c 0 1px, transparent 1.7px) 0 0 / 83px 73px,
+    radial-gradient(circle, #fff8dc70 0 .9px, transparent 1.6px) 31px 26px / 113px 119px;
+  animation: challenge-snow 22s linear infinite;
+}
+
+.challenge-room-trim {
+  --wood-bar: #946947, #d9b68f 37%, #b28157 66%, #69472f;
+  z-index: 1;
+  border: .46rem solid #966842;
+  border-color: #cda577 #986744 #755139 #b38860;
+  background:
+    linear-gradient(var(--wood-bar)) center / 100% .26rem no-repeat,
+    linear-gradient(90deg, var(--wood-bar)) center / .28rem 100% no-repeat;
+  box-shadow: inset 0 0 0 1px #efce9a, 0 0 0 1px #65452d, 0 .28rem .65rem #11291b7d;
+}
+
+.challenge-room-trim::after {
+  position: absolute;
+  inset-inline: -.79rem;
+  bottom: -.77rem;
+  height: .65rem;
+  border-radius: .14rem .14rem .23rem .23rem;
+  background: linear-gradient(#ddba89, #ac794d 42%, #77513a);
+  box-shadow: 0 .16rem .17rem #172a21a6;
+  content: "";
+}
+
+.challenge-room-sill-props {
+  position: absolute;
+  z-index: 1;
+  inset-inline-end: .72rem;
+  bottom: -.25rem;
+  display: flex;
+  align-items: flex-end;
+  gap: .55rem;
+}
+
+.challenge-room-candle, .challenge-room-mug {
+  position: relative;
+  box-shadow: 0 .13rem .15rem #4b352f70;
+}
+
+.challenge-room-candle {
+  width: .63rem;
+  height: .95rem;
+  border: 1px solid #ba8b5c;
+  border-radius: .17rem .16rem .09rem .09rem;
+  background: linear-gradient(90deg, #d3ae83, #fff4d6 54%, #ead1ab);
+}
+
+.challenge-room-candle::before {
+  position: absolute;
+  width: .38rem;
+  height: .56rem;
+  left: .06rem;
+  bottom: calc(100% + .07rem);
+  transform: rotate(14deg);
+  border-radius: 72% 38% 65% 46%;
+  background: radial-gradient(ellipse at 50% 75%, #fff7c6 24%, #ffcf73 58%, #ed9256);
+  box-shadow: 0 0 .38rem #ffda8ddf, 0 0 .93rem #ffb04c91;
+  content: "";
+}
+
+.challenge-room-mug {
+  width: .8rem;
+  height: .7rem;
+  border: 1px solid #6d3740;
+  border-radius: .15rem .15rem .28rem .28rem;
+  background:
+    radial-gradient(ellipse at 50% 3%, #513039 0 38%, transparent 45%),
+    linear-gradient(90deg, #853f49, #c27170 57%, #a65758);
+}
+
+.challenge-room-mug::after {
+  position: absolute;
+  inset: .1rem -.32rem auto auto;
+  width: .33rem;
+  height: .43rem;
+  border: .12rem solid #a5575c;
+  border-inline-start: 0;
+  border-radius: 0 .31rem .31rem 0;
+  content: "";
+}
+
+.challenge-room-garland {
+  z-index: 1;
+  top: calc(var(--room-window-top) - .82rem);
+  height: 1.45rem;
+  border-bottom: .43rem solid #31583e;
+  border-radius: 0 0 50% 50%;
+  box-shadow: 0 2px 0 #719268, 0 4px 7px #152f2bc2;
+  background:
+    radial-gradient(circle at 14% 72%, #ffda8f 0 2.2px, #ffbf5e58 3.2px, transparent 7px),
+    radial-gradient(circle at 25% 94%, #bf605d 0 2.5px, #832f3b 3.2px, transparent 4px),
+    radial-gradient(circle at 36% 98%, #ffe7aa 0 2.2px, #ffbf5e6b 3.4px, transparent 8px),
+    radial-gradient(circle at 64% 98%, #ffe7aa 0 2.2px, #ffbf5e6b 3.4px, transparent 8px),
+    radial-gradient(circle at 75% 94%, #bf605d 0 2.5px, #832f3b 3.2px, transparent 4px),
+    radial-gradient(circle at 86% 72%, #ffda8f 0 2.2px, #ffbf5e58 3.2px, transparent 7px);
+}
+
+.challenge-room-garland::after {
+  position: absolute;
+  left: 50%;
+  bottom: -.91rem;
+  width: 2rem;
+  height: 1.2rem;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(ellipse closest-side, #ba5655 78%, #722d3a 90%, transparent 100%) 0 0 / 1rem .76rem no-repeat,
+    radial-gradient(ellipse closest-side, #ba5655 78%, #722d3a 90%, transparent 100%) right top / 1rem .76rem no-repeat,
+    radial-gradient(circle closest-side, #e59d77 76%, #79313c 94%, transparent) center .22rem / .54rem .54rem no-repeat,
+    conic-gradient(from 155deg at 49% 15%, #a84648 0deg 21deg, transparent 24deg 33deg, #8d3943 36deg 59deg, transparent 62deg);
+  content: "";
+}
+
+/* Both snowmen share the same hand-drawn shapes and walking path. */
+.challenge-room-window::before,
+.challenge-room-window::after {
+  --snowman-offset: 0px;
+  --snowman-scale: .86;
+  --snowman-step-delay: -.18s;
+  --snowman-scarf: #a44452;
+  --snowman-scarf-shadow: #8e3746;
+  position: absolute;
+  left: 100%;
+  bottom: .25rem;
+  width: 82px;
+  height: 96px;
+  transform-origin: center 88px;
+  scale: var(--snowman-scale);
+  background:
+    linear-gradient(#29322d, #29322d) 31px 6px / 24px 14px no-repeat,
+    linear-gradient(var(--snowman-scarf), var(--snowman-scarf)) 31px 20px / 24px 3px no-repeat,
+    linear-gradient(#29322d, #29322d) 24px 23px / 38px 4px no-repeat,
+    radial-gradient(circle closest-side, #2c3431 80%, transparent 100%) 30px 32px / 3px 4px no-repeat,
+    radial-gradient(circle closest-side, #2c3431 80%, transparent 100%) 39px 32px / 4px 5px no-repeat,
+    conic-gradient(from 67deg at 0 50%, #dd8550 0deg 46deg, transparent 48deg) 20px 38px / 16px 10px no-repeat,
+    radial-gradient(ellipse closest-side, #e5a49c 58%, transparent 100%) 43px 41px / 8px 5px no-repeat,
+    linear-gradient(var(--snowman-scarf), var(--snowman-scarf-shadow)) 26px 48px / 34px 7px no-repeat,
+    linear-gradient(85deg, var(--snowman-scarf-shadow), var(--snowman-scarf)) 49px 54px / 8px 13px no-repeat,
+    radial-gradient(ellipse closest-side, #fff9ee 79%, #d8e6e0 96%, transparent 100%) 25px 22px / 35px 33px no-repeat,
+    radial-gradient(circle closest-side, #546057 78%, transparent 100%) 34px 62px / 4px 4px no-repeat,
+    radial-gradient(circle closest-side, #546057 78%, transparent 100%) 33px 73px / 4px 4px no-repeat,
+    radial-gradient(ellipse closest-side, #fff9ee 79%, #d8e6e0 96%, transparent 100%) 14px 46px / 55px 43px no-repeat,
+    radial-gradient(ellipse closest-side, #f8f5ea 74%, #c7d8d0 96%, transparent 100%) 18px 83px / 21px 9px no-repeat,
+    radial-gradient(ellipse closest-side, #f8f5ea 74%, #c7d8d0 96%, transparent 100%) 44px 84px / 21px 9px no-repeat,
+    radial-gradient(ellipse closest-side, #32605070, transparent 100%) 6px 82px / 70px 12px no-repeat;
+  animation:
+    challenge-snowman-crossing var(--snowman-travel-time) linear var(--snowman-start-delay) infinite,
+    challenge-snowman-step .9s ease-in-out var(--snowman-step-delay) infinite;
+  pointer-events: none;
+  content: "";
+}
+
+.challenge-room-window::after {
+  --snowman-offset: 3.85rem;
+  --snowman-scale: .56;
+  --snowman-step-delay: -.48s;
+  --snowman-scarf: #ab7945;
+  --snowman-scarf-shadow: #865631;
+  bottom: .55rem;
+}
+
+@keyframes challenge-snow {
+  to { background-position: -83px 73px, 144px 145px; }
+}
+
+@keyframes challenge-snowman-crossing {
+  from { left: calc(100% + var(--snowman-offset)); }
+  to { left: calc(-10rem + var(--snowman-offset)); }
+}
+
+@supports (width: 1cqw) and (translate: 1px) {
+  .challenge-room-window { container-type: inline-size; }
+
+  .challenge-room-window::before,
+  .challenge-room-window::after {
+    left: calc(100% + var(--snowman-offset));
+    animation-name: challenge-snowman-glide, challenge-snowman-step;
+  }
+}
+
+@keyframes challenge-snowman-glide {
+  from { translate: 0; }
+  to { translate: calc(-100cqw - 10rem); }
+}
+
+@keyframes challenge-snowman-step {
+  0%, 100% { transform: rotate(-3deg); }
+  25% { transform: translateY(-2px); }
+  50% { transform: rotate(2deg); }
+  75% { transform: translateY(-2px); }
+}
+
+@media (max-width: 520px) {
+  main:has(#challenge-window) > .jumbotron {
+    --room-window-width: auto;
+    --room-window-top: 5rem;
+    --room-window-side: clamp(1.25rem, 7vw, 2rem);
+    min-height: 14.5rem;
+    align-items: start;
+    padding-block: 1.2rem;
+  }
+
+  .challenge-room-window, .challenge-room-trim, .challenge-room-garland {
+    inset-inline-start: var(--room-window-side);
+  }
+}
+
+@media (min-width: 768px) {
+  main:has(#challenge-window) > .jumbotron { --snowman-travel-time: 30s; }
+}
+
+@media (min-width: 1100px) {
+  main:has(#challenge-window) > .jumbotron { --snowman-travel-time: 38s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .challenge-room-snow { animation: none; }
+
+  .challenge-room-window::before,
+  .challenge-room-window::after {
+    left: 25%;
+    transform: translateX(-50%);
+    animation: none;
+  }
+
+  .challenge-room-window::after { left: 75%; }
+}
+
+main:has(#challenge-window) > .jumbotron > .container {
+  padding: 0;
+}
+
+main:has(#challenge-window) > .jumbotron h1 {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  max-width: 62%;
+  margin: 0;
+  padding-bottom: .15rem;
+  font-size: clamp(2.1rem, 5.5vw, 4.5rem);
+  line-height: 1.12;
+  text-shadow: 0 2px 10px #1d241f;
+}
+
+.challenge-room-stockings {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  inline-size: 6.65em;
+  block-size: 2.35em;
+  margin-block-start: .48rem;
+  padding: .59em .55em 0 0;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.challenge-room-stockings::before {
+  position: absolute;
+  inset: .05em .2em auto;
+  height: .44em;
+  border-bottom: .075em solid #b49166;
+  border-radius: 0 0 50% 50%;
+  box-shadow: 0 1px #14261c85;
+  content: "";
+}
+
+.challenge-room-stockings::after {
+  --stocking-bulb: radial-gradient(ellipse at 50% 54%, #fff4c3 0 13%, #ffd080 17% 30%, #f8a44370 37%, transparent 71%);
+  position: absolute;
+  z-index: 1;
+  inset: 0 .15em auto;
+  height: .76em;
+  background:
+    var(--stocking-bulb) 6% -.05em / .53em .55em no-repeat,
+    var(--stocking-bulb) 27% .12em / .53em .55em no-repeat,
+    var(--stocking-bulb) 50% .19em / .56em .57em no-repeat,
+    var(--stocking-bulb) 73% .12em / .53em .55em no-repeat,
+    var(--stocking-bulb) 94% -.05em / .53em .55em no-repeat;
+  content: "";
+}
+
+.challenge-room-stockings > span {
+  --stocking-light: #db8e88;
+  --stocking-fabric: #a84c55;
+  --stocking-seam: #77343f;
+  --stocking-turn: -12deg;
+  --stocking-knit:
+    linear-gradient(58deg, transparent 33%, #fff1c54f 37% 48%, transparent 52%) 0 0 / .28em .23em,
+    linear-gradient(-58deg, transparent 33%, #492d293b 37% 49%, transparent 53%) .14em .11em / .28em .23em;
+  position: relative;
+  display: block;
+  inline-size: .94em;
+  block-size: 1.48em;
+  border-radius: .13em .13em .36em .43em;
+  background:
+    var(--stocking-knit),
+    linear-gradient(100deg, var(--stocking-seam), var(--stocking-fabric) 19% 72%, var(--stocking-light));
+  box-shadow: -.07em .12em .16em #192a21a0;
+  transform: rotate(var(--stocking-turn));
+  transform-origin: center .1em;
+}
+
+.challenge-room-stockings > span:nth-child(2) {
+  --stocking-light: #94be99;
+  --stocking-fabric: #62906e;
+  --stocking-seam: #3c634c;
+  --stocking-turn: -4deg;
+}
+
+.challenge-room-stockings > span:nth-child(3) {
+  --stocking-light: #edca8d;
+  --stocking-fabric: #bb8b49;
+  --stocking-seam: #88602f;
+  --stocking-turn: 8deg;
+}
+
+.challenge-room-stockings > span::before {
+  position: absolute;
+  z-index: 1;
+  inset: -.07em -.1em auto;
+  height: .4em;
+  border: 1px solid #e1d2b5;
+  border-radius: .16em .18em .2em .18em;
+  background:
+    radial-gradient(circle, #fffef4bb 0 .035em, transparent .052em) 0 0 / .17em .15em,
+    radial-gradient(circle, #b89a792e 0 .035em, transparent .05em) .08em .07em / .17em .15em,
+    linear-gradient(#fffdf2 14%, #f5ead7 74%, #ddd0b6);
+  box-shadow: inset 0 1px 1px #fffdf0, 0 .065em .08em #2b2e2360;
+  content: "";
+}
+
+.challenge-room-stockings > span::after {
+  position: absolute;
+  inset: auto -.47em -.02em auto;
+  width: 1.14em;
+  height: .65em;
+  border-radius: .18em .48em .48em .23em;
+  background:
+    var(--stocking-knit),
+    radial-gradient(ellipse at 102% 28%, var(--stocking-light) 0 33%, transparent 38%),
+    linear-gradient(var(--stocking-fabric) 56%, var(--stocking-seam));
+  content: "";
+}
+
+.challenge-room-stockings > span:nth-child(3) > i {
+  --cane-stripes: repeating-linear-gradient(143deg, #fff8e9 0 .11em, #e19483 .12em .13em, #ad444e .14em .24em);
+  position: absolute;
+  inset: -.28em auto auto .51em;
+  width: .22em;
+  height: .55em;
+  border-radius: .09em;
+  background: var(--cane-stripes);
+  filter: drop-shadow(0 1px 1px #2637298c);
+  transform: rotate(16deg);
+  transform-origin: center bottom;
+}
+
+.challenge-room-stockings > span:nth-child(3) > i::before {
+  position: absolute;
+  inset: -.26em auto auto 0;
+  width: .58em;
+  height: .39em;
+  background: var(--cane-stripes);
+  mask-image: radial-gradient(ellipse 50% 100% at 50% 100%, transparent 48%, #000 54% 96%, transparent 100%);
+  content: "";
+}
+
+@media (max-width: 520px) {
+  .challenge-room-stockings {
+    position: absolute;
+    inset-block-start: 1.42rem;
+    inset-inline-end: var(--room-window-side);
+    margin: 0;
+    font-size: clamp(.57rem, 2.08vw, .78rem);
+  }
+}
+
+main:has(#challenge-window) > .container {
+  padding-bottom: 3rem;
+}
+
+main:has(#challenge-window) .pt-5:has(> .category-header) {
+  padding-top: 2rem !important;
+}
+
+main:has(#challenge-window) .category-header {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  color: var(--season-green);
+}
+
+main:has(#challenge-window) .category-header h3 {
+  margin-bottom: 0;
+  font-size: clamp(1.3rem, 3vw, 1.65rem);
+}
+
+main:has(#challenge-window) .category-header::after {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--season-line), transparent);
+  content: "";
+}
+
+main:has(#challenge-window) .challenge-button.btn {
+  --card-ink: var(--season-ink);
+  --card-paper: var(--season-card);
+  --card-accent: #9a3347;
+  min-height: 7.25rem;
+  padding: .5rem 1rem;
+  border: 1px solid var(--season-line);
+  border-top: .3rem solid var(--card-accent);
+  border-radius: .45rem;
+  color: var(--card-ink);
+  background: var(--card-paper);
+  box-shadow: inset 0 0 0 3px var(--card-paper), inset 0 0 0 4px #c5a46e42, 0 .28rem .7rem #3423181b;
+}
+
+main:has(#challenge-window) .challenge-button.btn.challenge-solved {
+  --card-paper: var(--season-solved);
+  --card-ink: var(--season-solved-ink);
+  --card-accent: #39684e;
+}
+
+main:has(#challenge-window) .challenge-button.btn:is(:hover, :active, :focus-visible) {
+  border-color: #d0a563;
+  border-top-color: var(--card-accent);
+  color: var(--card-ink);
+  background: var(--card-paper);
+  box-shadow:
+    inset 0 0 0 3px var(--card-paper),
+    inset 0 0 0 4px var(--season-gold),
+    0 .4rem .9rem #3423182e,
+    0 0 .85rem #e7ac5654;
+}
+
+main:has(#challenge-window) .challenge-button.btn:focus-visible {
+  outline: 2px solid var(--season-green);
+  outline-offset: 3px;
+}
+
+.challenge-inner > p {
+  margin-bottom: .5rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.challenge-inner > span {
+  display: inline-block;
+  min-width: 3.1rem;
+  padding: .12rem .55rem;
+  border: 1px solid var(--season-line);
+  border-radius: 2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+#challenge-window .modal-content {
+  --bs-modal-bg: var(--season-paper);
+  --bs-modal-color: var(--season-ink);
+  --bs-modal-border-color: var(--season-line);
+  border-top: .35rem solid #873449;
+  box-shadow: 0 .75rem 2.5rem #241c2540;
+}
+
+#scoreboard > .col-md-12:has(> .table) {
+  overflow-x: auto;
+}
+
+#scoreboard .table > thead > tr > th:first-child {
+  min-width: 3.25rem;
+  white-space: nowrap;
+}
+
+body:has(> .navbar #base-navbars) .btn-primary {
+  --bs-btn-bg: #832e3d;
+  --bs-btn-border-color: #832e3d;
+  --bs-btn-hover-bg: #6e2535;
+  --bs-btn-hover-border-color: #6e2535;
+  --bs-btn-active-bg: #5e1f2d;
+  --bs-btn-active-border-color: #5e1f2d;
+  --bs-btn-disabled-bg: #832e3d;
+  --bs-btn-disabled-border-color: #832e3d;
+}
