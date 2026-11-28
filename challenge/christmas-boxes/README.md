@@ -6,7 +6,7 @@
 | 난이도 | Easy |
 | 핵심 개념 | 중첩 ZIP, XOR, 이진수와 십진수 변환, Base64 |
 | 첨부파일 | [christmas_boxes.zip](./christmas_boxes.zip) |
-| 플래그 형식 | `Xmas{...}` |
+| 플래그 형식 | `xmas{...}` |
 
 ## 문제 설명
 

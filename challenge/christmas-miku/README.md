@@ -8,7 +8,7 @@
 | 난이도 | 상 |
 | 핵심 개념 | 스테가노그래피, RGB·RGBA, LSB, ASCII |
 | 첨부파일 | `hints.txt`, `miku_christmas.png` |
-| 플래그 형식 | `Xmas{...}` |
+| 플래그 형식 | `xmas{...}` |
 
 ## 문제 설명
 
@@ -36,4 +36,4 @@
 
 ## 플래그 형식
 
-`Xmas{...}`
+`xmas{...}`
