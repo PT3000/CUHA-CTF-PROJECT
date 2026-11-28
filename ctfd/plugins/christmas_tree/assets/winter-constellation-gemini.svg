@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 291">
+  <title>Gemini</title>
+  <desc>Castor and Pollux mark the twin heads, above two distinct parallel figures.</desc>
+  <defs>
+    <path id="spark" d="M0-8C1-2.5 2.5-1 8 0C2.5 1 1 2.5 0 8C-1 2.5-2.5 1-8 0C-2.5-1-1-2.5 0-8Z"/>
+  </defs>
+  <path d="M155 23L192 45L180 98L174 143L162 184L155 257M155 23L150 77L137 122L127 178L99 231M137 122L102 104M180 98L204 122" fill="none" stroke="#C5B38E" stroke-opacity=".55" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+  <g fill="#AE8D55" opacity=".79">
+    <use href="#spark" transform="translate(155 23) scale(1.12)"/>
+    <use href="#spark" transform="translate(192 45) scale(1.35)"/>
+    <use href="#spark" transform="translate(137 122) scale(0.8)"/>
+    <use href="#spark" transform="translate(174 143) scale(0.69)"/>
+    <use href="#spark" transform="translate(99 231) scale(0.96)"/>
+    <use href="#spark" transform="translate(155 257) scale(1.12)"/>
+    <circle cx="150" cy="77" r="2.85"/>
+    <circle cx="180" cy="98" r="3"/>
+    <circle cx="162" cy="184" r="2.8"/>
+    <circle cx="127" cy="178" r="2.65"/>
+    <circle cx="102" cy="104" r="2.2"/>
+    <circle cx="204" cy="122" r="2.2"/>
+  </g>
+</svg>

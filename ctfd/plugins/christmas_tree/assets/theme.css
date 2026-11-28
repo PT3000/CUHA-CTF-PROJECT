@@ -1,0 +1,1195 @@
+.footer a[href="https://ctfd.io"] {
+  display: none;
+}
+
+body:has(> .navbar #base-navbars) {
+  --season-serif: Batang, "AppleMyungjo", Georgia, serif;
+  --season-ink: #332820;
+  --season-paper: #fcf6ea;
+  --season-paper-edge: #eee1cc;
+  --season-line: #c5a46e;
+  --season-green: #214b3d;
+  --season-card: #fffaf0;
+  --season-solved: #e1eddf;
+  --season-solved-ink: #1b4234;
+  --season-gold: #eacb87;
+  --bs-link-color-rgb: 130, 47, 61;
+  --bs-link-hover-color-rgb: 86, 31, 43;
+  min-height: 100vh;
+  color: var(--season-ink);
+  background:
+    radial-gradient(circle, #b4865e19 0 1px, transparent 1.6px) 0 0 / 23px 23px,
+    radial-gradient(ellipse at 50% 7rem, var(--season-paper) 10%, transparent 72%),
+    var(--season-paper-edge);
+}
+
+[data-bs-theme="dark"] body:has(> .navbar #base-navbars) {
+  --season-ink: #f5e9d8;
+  --season-paper: #2c3430;
+  --season-paper-edge: #1e2924;
+  --season-line: #9a7b53;
+  --season-green: #b9dcc2;
+  --season-card: #313a33;
+  --season-solved: #314b3b;
+  --season-solved-ink: #dfefde;
+  --bs-link-color-rgb: 244, 170, 176;
+  --bs-link-hover-color-rgb: 255, 220, 214;
+}
+
+body:has(> .navbar #base-navbars):has(#challenge-window) {
+  background:
+    radial-gradient(ellipse 29rem 25rem at left 18rem, #e8aa602c, transparent 78%),
+    radial-gradient(ellipse 34rem 26rem at right bottom, #ebba7750, transparent 76%),
+    #FAF3E6;
+}
+
+.navbar.fixed-top.bg-dark:has(#base-navbars) {
+  --bs-dark-rgb: 24, 55, 43;
+  --bs-navbar-color: #f3e7d1;
+  --bs-navbar-hover-color: #ffe1a2;
+  --bs-navbar-toggler-border-color: #eacb8770;
+  background-image: linear-gradient(110deg, #274d3b, #173327);
+  box-shadow: inset 0 -2px #c19959, 0 3px 12px #281c1f24;
+}
+
+.navbar:has(#base-navbars) .navbar-brand {
+  color: #fff1d4;
+  font-family: Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .navbar:has(#base-navbars) > .container {
+    width: min(75rem, calc(100% - 2rem));
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  #base-navbars .nav-link {
+    white-space: nowrap;
+  }
+}
+
+.navbar:has(#base-navbars) .navbar-toggler {
+  margin-inline-start: auto;
+}
+
+:where(body:has(> .navbar #base-navbars)) main > .jumbotron {
+  margin: clamp(.8rem, 2.5vw, 1.8rem) auto 0;
+  width: min(calc(100% - 1.75rem), 75rem);
+  border: 1px solid var(--season-line);
+  border-radius: .7rem;
+  background: linear-gradient(112deg, #203c30, #305745 52%, #263b3b);
+  color: #fff5dd;
+  box-shadow: 0 .45rem 1.4rem #3d292322;
+}
+
+body:has(> .navbar #base-navbars) .jumbotron h1,
+main:has(#challenge-window) .category-header h3,
+#challenge-window .challenge-name {
+  font-family: var(--season-serif);
+  font-weight: 700;
+}
+
+main:has(#challenge-window) > .jumbotron {
+  --snowman-travel-time: 24s;
+  --snowman-start-delay: -8s;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  justify-items: center;
+  row-gap: clamp(1.1rem, 1.8vw, 1.65rem);
+  padding: clamp(1rem, 2.25vw, 1.85rem) 0 1.75rem;
+  overflow: hidden;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at 16% 73%, #edb25f36, transparent 37%),
+    radial-gradient(ellipse at 76% 15%, #f4c2782b, transparent 62%),
+    repeating-linear-gradient(90deg, #e2c89b12 0 1px, #c9aa7c07 1px .9rem, transparent .9rem 1.8rem),
+    linear-gradient(110deg, #203d31, #38533d 72%, #294437);
+}
+
+.challenge-room-scene {
+  position: relative;
+  grid-row: 2;
+  inline-size: min(52rem, calc(100% - 2 * clamp(1.35rem, 4.4vw, 3.95rem)));
+  block-size: clamp(9.4rem, 22vw, 15rem);
+}
+
+.challenge-room-window, .challenge-room-trim, .challenge-room-garland {
+  position: absolute;
+  inset-inline: 0;
+  pointer-events: none;
+}
+
+.challenge-room-window, .challenge-room-trim {
+  inset-block: 0;
+  border-radius: .28rem;
+}
+
+.challenge-room-window {
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 48% 130%, #e9edf0 0 68%, transparent 69%) -2rem bottom / 77% 1.7rem no-repeat,
+    radial-gradient(ellipse at 55% 140%, #c5d5df 0 67%, transparent 68%) right bottom / 79% 2.8rem no-repeat,
+    radial-gradient(ellipse at 74% 24%, #5e779553, transparent 44%),
+    linear-gradient(155deg, #111d30 10%, #20324b 64%, #2e4962);
+}
+
+.challenge-room-moon {
+  position: absolute;
+  inset-block-start: 25%;
+  inset-inline-start: 74%;
+  inline-size: clamp(1.65rem, 8cqi, 3.4rem);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 30% 44%, #a9a99647 0 10%, transparent 19%),
+    radial-gradient(ellipse at 57% 66%, #9fa28b3b 0 12%, transparent 22%),
+    radial-gradient(ellipse at 70% 34%, #b7b69e5c 0 7%, transparent 16%),
+    linear-gradient(145deg, #fff9e9 26%, #ede7cc 70%, #cdd4cb);
+  box-shadow: 0 0 .7rem #fff1bd6b, 0 0 1.9rem .32rem #d5e0ed44;
+}
+
+.challenge-room-snow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle, #f2f7ff91 0 .8px, transparent 1.4px) 0 0 / 76px 67px,
+    radial-gradient(circle, #fffdf1bb 0 1.35px, transparent 2.1px) 31px 26px / 117px 103px,
+    radial-gradient(circle, #dbeafb6e 0 .62px, transparent 1.2px) 68px 13px / 159px 135px;
+  animation: challenge-snow 24s linear infinite;
+}
+
+.challenge-room-trim {
+  --wood-bar: #946947, #d9b68f 37%, #b28157 66%, #69472f;
+  z-index: 1;
+  border: .46rem solid #966842;
+  border-color: #cda577 #986744 #755139 #b38860;
+  background:
+    linear-gradient(var(--wood-bar)) center / 100% .26rem no-repeat,
+    linear-gradient(90deg, var(--wood-bar)) center / .28rem 100% no-repeat;
+  box-shadow:
+    inset 0 0 0 1px #efce9a,
+    inset 0 0 .62rem #ffbb6829,
+    0 0 0 1px #6c4f32,
+    0 0 .65rem #ffb76569,
+    0 0 1.8rem .15rem #f0a44d44,
+    0 .28rem .65rem #11291b7d;
+}
+
+.challenge-room-trim::after {
+  position: absolute;
+  inset-inline: -.79rem;
+  bottom: -.77rem;
+  height: .65rem;
+  border-radius: .14rem .14rem .23rem .23rem;
+  background: linear-gradient(#ddba89, #ac794d 42%, #77513a);
+  box-shadow: 0 .16rem .17rem #172a21a6, 0 .27rem .82rem #f1a65048;
+  content: "";
+}
+
+.challenge-room-sill-props {
+  position: absolute;
+  z-index: 1;
+  inset-inline-end: 1rem;
+  bottom: -.21rem;
+  display: flex;
+  align-items: flex-end;
+  gap: .67rem;
+}
+
+.challenge-room-sill-props-start {
+  inset-inline: .85rem auto;
+}
+
+.challenge-room-books, .challenge-room-shelf-candle {
+  position: relative;
+}
+
+.challenge-room-books {
+  inline-size: 1.85rem;
+  block-size: .55rem;
+}
+
+.challenge-room-books::before, .challenge-room-books::after {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  block-size: .27rem;
+  border-radius: .08rem;
+  content: "";
+}
+
+.challenge-room-books::before {
+  inset-block-end: .25rem;
+  inset-inline: .18rem .07rem;
+  border-block: 1px solid #687a6d;
+  background: #d6c1a0;
+  transform: rotate(-3deg);
+}
+
+.challenge-room-books::after {
+  border-block: 1px solid #72434c;
+  background: linear-gradient(90deg, #854d54 .22rem, #dac2a2 .23rem);
+  box-shadow: 0 .09rem .12rem #2b212c60;
+}
+
+.challenge-room-shelf-candle {
+  inline-size: .8rem;
+  block-size: .7rem;
+  border: 1px solid #8a6048;
+  border-radius: .13rem .13rem .19rem .19rem;
+  background:
+    linear-gradient(#ead2a4 0 .12rem, transparent .13rem),
+    linear-gradient(90deg, #8f644b, #ba8e61 55%, #805943);
+  box-shadow: 0 .09rem .12rem #2b212c60;
+}
+
+.challenge-room-shelf-candle::before {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: calc(100% + .08rem);
+  inline-size: .29rem;
+  block-size: .57rem;
+  translate: -50%;
+  rotate: 6deg;
+  border-radius: 72% 31% 53% 55%;
+  background: linear-gradient(#ed9354, #ffd081 37%, #fff1ba 80%);
+  box-shadow: 0 0 .38rem #ffc47cba, 0 0 .82rem #ffac6170;
+  content: "";
+}
+
+.challenge-room-shelf-candle::after {
+  position: absolute;
+  z-index: -1;
+  inset-inline-start: 50%;
+  inset-block-end: calc(100% + .53rem);
+  inline-size: clamp(4.7rem, 9vw, 7.3rem);
+  block-size: clamp(4.4rem, 8.2vw, 6.4rem);
+  translate: -50% 50%;
+  background: radial-gradient(ellipse at 50% 59%, #ffd28c82 0%, #f5a55859 16%, #de76444b 33%, #c061342d 49%, #ac4d2b12 62%, transparent 76%);
+  pointer-events: none;
+  content: "";
+}
+
+.challenge-room-vase, .challenge-room-mug {
+  position: relative;
+  box-shadow: 0 .12rem .14rem #2b212c70;
+}
+
+.challenge-room-vase {
+  width: 1.08rem;
+  height: 1.28rem;
+  border-radius: 48% 48% 33% 33% / 59% 59% 32% 32%;
+  background: linear-gradient(104deg, #e2bf9a, #c69b77 62%, #9c7058);
+}
+
+.challenge-room-vase::before {
+  position: absolute;
+  z-index: -1;
+  inset: -.24rem 30% auto;
+  height: .53rem;
+  border-radius: .12rem .12rem .2rem .2rem;
+  background: linear-gradient(90deg, #e0bc96, #a67c61);
+  content: "";
+}
+
+.challenge-room-vase::after {
+  position: absolute;
+  inset-inline-start: 41%;
+  bottom: calc(100% + .21rem);
+  width: .88rem;
+  height: 1rem;
+  background: #7b9a82;
+  clip-path: polygon(0 100%, 37% 63%, 28% 24%, 43% 36%, 47% 53%, 88% 7%, 98% 0, 91% 20%, 60% 64%, 100% 44%, 90% 61%, 53% 76%, 12% 100%);
+  content: "";
+}
+
+.challenge-room-mug {
+  width: 1.06rem;
+  height: .78rem;
+  border: 1px solid #24404a;
+  border-radius: .16rem .16rem .28rem .28rem;
+  background:
+    radial-gradient(ellipse at 50% 2%, #25363c 0 37%, transparent 44%),
+    linear-gradient(95deg, #597278, #425a63 65%, #343f4f);
+}
+
+.challenge-room-mug::after {
+  position: absolute;
+  inset: .11rem -.32rem auto auto;
+  width: .32rem;
+  height: .43rem;
+  border: .105rem solid #49636a;
+  border-inline-start: 0;
+  border-radius: 0 .3rem .3rem 0;
+  content: "";
+}
+
+.challenge-room-garland {
+  z-index: 1;
+  top: clamp(-1.35rem, -1.8vw, -.85rem);
+  height: clamp(1.85rem, 3.25vw, 3.2rem);
+  background: url("./window-pine-garland.webp?v=b1e8b5dea328") center / 100% 100% no-repeat;
+  filter: drop-shadow(0 .15rem .18rem #132c2480);
+  inset-inline: -.58rem;
+}
+
+.challenge-room-garland::after,
+.challenge-ornament-bow {
+  aspect-ratio: 130 / 82;
+  background: url("./holiday-bow.svg?v=3ffd62f0df21") center / contain no-repeat;
+  pointer-events: none;
+}
+
+.challenge-room-garland::after {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 19%;
+  inline-size: clamp(2.95rem, 6.15vw, 5.05rem);
+  translate: -50%;
+  content: "";
+}
+
+/* Both snowmen share the same hand-drawn shapes and walking path. */
+.challenge-room-window::before,
+.challenge-room-window::after {
+  --snowman-offset: 0px;
+  --snowman-scale: .86;
+  --snowman-step-delay: -.18s;
+  --snowman-scarf: #a44452;
+  --snowman-scarf-shadow: #8e3746;
+  position: absolute;
+  left: 100%;
+  bottom: .25rem;
+  width: 82px;
+  height: 96px;
+  transform-origin: center 88px;
+  scale: var(--snowman-scale);
+  background:
+    linear-gradient(#29322d, #29322d) 31px 6px / 24px 14px no-repeat,
+    linear-gradient(var(--snowman-scarf), var(--snowman-scarf)) 31px 20px / 24px 3px no-repeat,
+    linear-gradient(#29322d, #29322d) 24px 23px / 38px 4px no-repeat,
+    radial-gradient(circle closest-side, #2c3431 80%, transparent 100%) 30px 32px / 3px 4px no-repeat,
+    radial-gradient(circle closest-side, #2c3431 80%, transparent 100%) 39px 32px / 4px 5px no-repeat,
+    conic-gradient(from 67deg at 0 50%, #dd8550 0deg 46deg, transparent 48deg) 20px 38px / 16px 10px no-repeat,
+    radial-gradient(ellipse closest-side, #e5a49c 58%, transparent 100%) 43px 41px / 8px 5px no-repeat,
+    linear-gradient(var(--snowman-scarf), var(--snowman-scarf-shadow)) 26px 48px / 34px 7px no-repeat,
+    linear-gradient(85deg, var(--snowman-scarf-shadow), var(--snowman-scarf)) 49px 54px / 8px 13px no-repeat,
+    radial-gradient(ellipse closest-side, #fff9ee 79%, #d8e6e0 96%, transparent 100%) 25px 22px / 35px 33px no-repeat,
+    radial-gradient(circle closest-side, #546057 78%, transparent 100%) 34px 62px / 4px 4px no-repeat,
+    radial-gradient(circle closest-side, #546057 78%, transparent 100%) 33px 73px / 4px 4px no-repeat,
+    radial-gradient(ellipse closest-side, #fff9ee 79%, #d8e6e0 96%, transparent 100%) 14px 46px / 55px 43px no-repeat,
+    radial-gradient(ellipse closest-side, #f8f5ea 74%, #c7d8d0 96%, transparent 100%) 18px 83px / 21px 9px no-repeat,
+    radial-gradient(ellipse closest-side, #f8f5ea 74%, #c7d8d0 96%, transparent 100%) 44px 84px / 21px 9px no-repeat,
+    radial-gradient(ellipse closest-side, #32605070, transparent 100%) 6px 82px / 70px 12px no-repeat;
+  animation:
+    challenge-snowman-crossing var(--snowman-travel-time) linear var(--snowman-start-delay) infinite,
+    challenge-snowman-step .9s ease-in-out var(--snowman-step-delay) infinite;
+  pointer-events: none;
+  content: "";
+}
+
+.challenge-room-window::after {
+  --snowman-offset: 3.85rem;
+  --snowman-scale: .56;
+  --snowman-step-delay: -.48s;
+  --snowman-scarf: #ab7945;
+  --snowman-scarf-shadow: #865631;
+  bottom: .55rem;
+}
+
+@keyframes challenge-snow {
+  to { background-position: 76px 134px, 148px 232px, 68px 148px; }
+}
+
+@keyframes challenge-snowman-crossing {
+  from { left: calc(100% + var(--snowman-offset)); }
+  to { left: calc(-10rem + var(--snowman-offset)); }
+}
+
+@supports (width: 1cqw) and (translate: 1px) {
+  .challenge-room-window { container-type: inline-size; }
+
+  .challenge-room-window::before,
+  .challenge-room-window::after {
+    left: calc(100% + var(--snowman-offset));
+    animation-name: challenge-snowman-glide, challenge-snowman-step;
+  }
+}
+
+@keyframes challenge-snowman-glide {
+  from { translate: 0; }
+  to { translate: calc(-100cqw - 10rem); }
+}
+
+@keyframes challenge-snowman-step {
+  0%, 100% { transform: rotate(-3deg); }
+  25% { transform: translateY(-2px); }
+  50% { transform: rotate(2deg); }
+  75% { transform: translateY(-2px); }
+}
+
+@media (min-width: 768px) {
+  main:has(#challenge-window) > .jumbotron { --snowman-travel-time: 30s; }
+}
+
+@media (min-width: 1100px) {
+  main:has(#challenge-window) > .jumbotron { --snowman-travel-time: 38s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .challenge-room-snow { animation: none; }
+
+  .challenge-room-window::before,
+  .challenge-room-window::after {
+    left: 25%;
+    transform: translateX(-50%);
+    animation: none;
+  }
+
+  .challenge-room-window::after { left: 75%; }
+}
+
+main:has(#challenge-window) > .jumbotron > .container {
+  display: grid;
+  grid-row: 1;
+  grid-template-columns: minmax(0, max-content);
+  justify-content: center;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-inline: clamp(.5rem, 1.8vw, 1.5rem);
+  container-type: inline-size;
+}
+
+main:has(#challenge-window) > .jumbotron h1 {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding-bottom: .15rem;
+  font-size: clamp(2.05rem, 5.45cqi, 4.35rem);
+  line-height: 1.12;
+  text-shadow: 0 2px 10px #1d241f;
+}
+
+
+@media (min-width: 521px) {
+  main:has(#challenge-window) > .jumbotron {
+    --room-window-width: min(62%, 46rem);
+    --room-window-side: clamp(1.2rem, 4vw, 3.5rem);
+    grid-template-columns: minmax(0, 1fr) var(--room-window-width) var(--room-window-side);
+    align-items: center;
+    row-gap: 0;
+    padding-block: 1.5rem 1.4rem;
+  }
+
+  main:has(#challenge-window) > .jumbotron > .container {
+    grid-column: 1;
+    grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+    block-size: 100%;
+  }
+
+  main:has(#challenge-window) > .jumbotron h1 {
+    grid-area: 2 / 1;
+    font-size: clamp(1.25rem, 17.5cqi, 4.5rem);
+  }
+
+  .challenge-room-stockings {
+    grid-area: 3 / 1;
+    align-self: start;
+  }
+
+  .challenge-room-scene {
+    grid-area: 1 / 2;
+    inline-size: 100%;
+    block-size: clamp(9.4rem, 21vw, 15rem);
+  }
+}
+
+.challenge-room-stockings {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  block-size: 2.68em;
+  margin-block-start: .25rem;
+  padding-block-start: .88em;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.challenge-room-stockings::before {
+  position: absolute;
+  inset: .02em .2em auto;
+  height: 1.04em;
+  border-bottom: .084em solid #c1a079;
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  box-shadow: 0 1px #14261c85;
+  content: "";
+}
+
+.challenge-room-stockings::after {
+  --stocking-bulb: radial-gradient(ellipse at 50% 54%, #fff4c3 0 13%, #ffd080 17% 30%, #f8a44370 37%, transparent 71%);
+  position: absolute;
+  z-index: 1;
+  inset: 0 .15em auto;
+  height: 1.32em;
+  background:
+    var(--stocking-bulb) 3% .07em / .53em .55em no-repeat,
+    var(--stocking-bulb) 15% .45em / .53em .55em no-repeat,
+    var(--stocking-bulb) 26% .62em / .53em .55em no-repeat,
+    var(--stocking-bulb) 38% .72em / .53em .55em no-repeat,
+    var(--stocking-bulb) 50% .75em / .56em .57em no-repeat,
+    var(--stocking-bulb) 62% .72em / .53em .55em no-repeat,
+    var(--stocking-bulb) 74% .62em / .53em .55em no-repeat,
+    var(--stocking-bulb) 85% .45em / .53em .55em no-repeat,
+    var(--stocking-bulb) 97% .07em / .53em .55em no-repeat;
+  content: "";
+}
+
+.challenge-room-stockings > span {
+  --stocking-light: #db8e88;
+  --stocking-fabric: #a84c55;
+  --stocking-seam: #77343f;
+  --stocking-turn: -12deg;
+  --stocking-knit:
+    linear-gradient(58deg, transparent 33%, #fff1c54f 37% 48%, transparent 52%) 0 0 / .28em .23em,
+    linear-gradient(-58deg, transparent 33%, #492d293b 37% 49%, transparent 53%) .14em .11em / .28em .23em;
+  position: relative;
+  display: block;
+  inline-size: .94em;
+  block-size: 1.48em;
+  border-radius: .13em .13em .36em .43em;
+  background:
+    var(--stocking-knit),
+    linear-gradient(100deg, var(--stocking-seam), var(--stocking-fabric) 19% 72%, var(--stocking-light));
+  box-shadow: -.07em .12em .16em #192a21a0;
+  transform: rotate(var(--stocking-turn));
+  transform-origin: center .1em;
+}
+
+.challenge-room-stockings > span:nth-child(2) {
+  --stocking-light: #94be99;
+  --stocking-fabric: #62906e;
+  --stocking-seam: #3c634c;
+  --stocking-turn: -4deg;
+  margin-block-start: .16em;
+}
+
+.challenge-room-stockings > span:nth-child(3) {
+  --stocking-light: #edca8d;
+  --stocking-fabric: #bb8b49;
+  --stocking-seam: #88602f;
+  --stocking-turn: 8deg;
+}
+
+.challenge-room-stockings > span::before {
+  position: absolute;
+  z-index: 1;
+  inset: -.07em -.1em auto;
+  height: .4em;
+  border: 1px solid #e1d2b5;
+  border-radius: .16em .18em .2em .18em;
+  background:
+    radial-gradient(circle, #fffef4bb 0 .035em, transparent .052em) 0 0 / .17em .15em,
+    radial-gradient(circle, #b89a792e 0 .035em, transparent .05em) .08em .07em / .17em .15em,
+    linear-gradient(#fffdf2 14%, #f5ead7 74%, #ddd0b6);
+  box-shadow: inset 0 1px 1px #fffdf0, 0 .065em .08em #2b2e2360;
+  content: "";
+}
+
+.challenge-room-stockings > span::after {
+  position: absolute;
+  inset: auto -.47em -.02em auto;
+  width: 1.14em;
+  height: .65em;
+  border-radius: .18em .48em .48em .23em;
+  background:
+    var(--stocking-knit),
+    radial-gradient(ellipse at 102% 28%, var(--stocking-light) 0 33%, transparent 38%),
+    linear-gradient(var(--stocking-fabric) 56%, var(--stocking-seam));
+  content: "";
+}
+
+.challenge-room-stockings > span:nth-child(3) > i {
+  --cane-stripes: repeating-linear-gradient(143deg, #fff8e9 0 .11em, #e19483 .12em .13em, #ad444e .14em .24em);
+  position: absolute;
+  inset: -.28em auto auto .51em;
+  width: .22em;
+  height: .55em;
+  border-radius: .09em;
+  background: var(--cane-stripes);
+  filter: drop-shadow(0 1px 1px #2637298c);
+  transform: rotate(16deg);
+  transform-origin: center bottom;
+}
+
+.challenge-room-stockings > span:nth-child(3) > i::before {
+  position: absolute;
+  inset: -.26em auto auto 0;
+  width: .58em;
+  height: .39em;
+  background: var(--cane-stripes);
+  mask-image: radial-gradient(ellipse 50% 100% at 50% 100%, transparent 48%, #000 54% 96%, transparent 100%);
+  content: "";
+}
+
+@media (max-width: 520px) {
+  .challenge-room-stockings {
+    margin-block-start: .3rem;
+    font-size: .78rem;
+  }
+}
+
+main:has(#challenge-window) > .container {
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+.challenge-constellation,
+.challenge-postage-art {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  main:has(#challenge-window) > .container {
+    width: calc(100% - clamp(7.5rem, 22vw, 15rem));
+  }
+
+  .challenge-constellation {
+    --constellation-offset: max(-8.25rem, calc((100% - 100vw) / 2 + .95rem));
+    position: absolute;
+    z-index: 0;
+    display: block;
+    inline-size: clamp(12.75rem, 25vw, 21rem);
+    max-block-size: 35%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+  }
+
+  .challenge-constellation-start {
+    inset-inline-start: var(--constellation-offset);
+    background-position: left center;
+  }
+
+  .challenge-constellation-end {
+    inset-inline-end: var(--constellation-offset);
+    background-position: right center;
+  }
+
+  .challenge-constellation-orion {
+    inset-block-start: 15%;
+    aspect-ratio: 220 / 258;
+    background-image: url("./winter-constellation-orion.svg?v=12210542ee20");
+  }
+
+  .challenge-constellation-cassiopeia {
+    inset-block-start: 22%;
+    aspect-ratio: 220 / 208;
+    background-image: url("./winter-constellation-cassiopeia.svg?v=06949f5060ae");
+  }
+
+  .challenge-constellation-taurus {
+    inset-block-end: 15%;
+    aspect-ratio: 220 / 257;
+    background-image: url("./winter-constellation-taurus.svg?v=567a2de5dbe7");
+  }
+
+  .challenge-constellation-gemini {
+    inset-block-end: 1%;
+    aspect-ratio: 220 / 291;
+    background-image: url("./winter-constellation-gemini.svg?v=026a3c4ca075");
+  }
+}
+
+@media (min-width: 768px) {
+  .challenge-postage-art {
+    position: absolute;
+    inset-block: 0 2rem;
+    display: block;
+    inline-size: min(4.65rem, max(0px, (100vw - 100%) / 2 - 1.55rem));
+    opacity: .35;
+    pointer-events: none;
+  }
+
+  .challenge-postage-art-start {
+    inset-inline-end: calc(100% + .3rem);
+  }
+
+  .challenge-postage-art-end {
+    inset-inline-start: calc(100% + .3rem);
+  }
+
+  .challenge-postage-art > span {
+    position: absolute;
+    inset-inline: 0;
+    aspect-ratio: 1;
+    background: url("./postage-line-art.webp?v=aa199fbad09b") var(--postage-panel) center / 400% 100% no-repeat;
+  }
+
+  .challenge-postage-stamp {
+    --postage-panel: 0%;
+    inset-block-start: min(4rem, 10%);
+    rotate: -9deg;
+  }
+
+  .challenge-postage-compass {
+    --postage-panel: 33.3333%;
+    inset-block-start: min(9rem, 22%);
+  }
+
+  .challenge-postage-deer {
+    --postage-panel: 66.6667%;
+    inset-block-start: 49%;
+  }
+
+  .challenge-postage-quill {
+    --postage-panel: 100%;
+    inset-block-start: 58%;
+    rotate: 8deg;
+  }
+}
+
+.challenge-side-ornaments {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  main:has(#challenge-window) {
+    --ornament-gutter: clamp(3.75rem, 8.5vw, 7.5rem);
+    display: grid;
+    grid-template-columns: 1fr min(75rem, calc(100% - 2 * var(--ornament-gutter))) 1fr;
+  }
+
+  main:has(#challenge-window) > .jumbotron {
+    grid-area: 1 / 2;
+    width: 100%;
+  }
+
+  main:has(#challenge-window) > .container {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
+
+  .challenge-side-ornaments {
+    position: relative;
+    display: block;
+    grid-area: 1 / 1;
+    justify-self: end;
+    inline-size: min(100%, 7.5rem);
+    pointer-events: none;
+  }
+
+  .challenge-side-ornaments-end {
+    grid-column: 3;
+    justify-self: start;
+  }
+
+  .challenge-side-ornaments > span {
+    --ribbon-shadow: #a3753f;
+    --ribbon-highlight: #e6bf77;
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: var(--ribbon-position);
+    inline-size: clamp(1.05rem, 2.2vw, 1.95rem);
+    block-size: var(--ribbon-drop);
+    translate: -50%;
+  }
+
+  .challenge-side-ornaments > span:nth-child(1) {
+    --ribbon-position: 23%;
+    --ribbon-drop: 40%;
+  }
+
+  .challenge-side-ornaments > span:nth-child(2) {
+    --ribbon-position: 51%;
+    --ribbon-drop: 82%;
+  }
+
+  .challenge-side-ornaments > span:nth-child(3) {
+    --ribbon-position: 79%;
+    --ribbon-drop: 61%;
+  }
+
+  .challenge-side-ornaments-end > span:nth-child(1) { --ribbon-drop: 69%; }
+  .challenge-side-ornaments-end > span:nth-child(2) { --ribbon-drop: 43%; }
+  .challenge-side-ornaments-end > span:nth-child(3) { --ribbon-drop: 84%; }
+
+  .challenge-side-ornaments > .challenge-ornament-star {
+    --ribbon-shadow: #79233f;
+    --ribbon-highlight: #ba5974;
+  }
+
+  .challenge-side-ornaments > span::before {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 50%;
+    inline-size: clamp(1.5px, .19vw, 3px);
+    translate: -50%;
+    background: linear-gradient(90deg, var(--ribbon-shadow), var(--ribbon-highlight) 48%, var(--ribbon-shadow));
+    content: "";
+  }
+
+  .challenge-ornament-bow {
+    position: absolute;
+    z-index: 1;
+    inset-inline-start: 50%;
+    inset-block-start: calc(100% - .26rem);
+    inline-size: clamp(1.3rem, 2.5vw, 2.2rem);
+    translate: -50%;
+    filter: drop-shadow(0 1px 1px #84624335);
+  }
+
+  .challenge-side-ornaments > span::after {
+    position: absolute;
+    inset: calc(100% + .29rem) 0 auto;
+    aspect-ratio: 1;
+    background: url("./side-ornaments.webp?v=084ef94919d8") center var(--ornament-panel) / 100% 300% no-repeat;
+    filter: drop-shadow(0 1px 1px #84624348);
+    content: "";
+  }
+
+  .challenge-ornament-bell { --ornament-panel: 0%; }
+  .challenge-ornament-star { --ornament-panel: 50%; }
+  .challenge-ornament-pinecone { --ornament-panel: 100%; }
+}
+
+main:has(#challenge-window) .pt-5:has(> .category-header) {
+  padding-top: 2rem !important;
+}
+
+main:has(#challenge-window) .category-header {
+  --category-frame-gold: #c5b38e;
+  --category-frame-detail: #ad9363;
+  --category-frame-outset: .375rem;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns:
+    calc(clamp(.85rem, 4.1vw, 3.6rem) + var(--category-frame-outset))
+    minmax(0, max-content) minmax(1rem, 1fr);
+  margin-inline: calc(0px - var(--category-frame-outset));
+  align-items: center;
+  gap: clamp(.5rem, 1.2vw, .85rem);
+  color: #214b3d;
+}
+
+main:has(#challenge-window) .category-header h3 {
+  min-width: 0;
+  margin-bottom: 0;
+  font-size: clamp(1.3rem, 3vw, 1.65rem);
+  overflow-wrap: anywhere;
+}
+
+main:has(#challenge-window) .challenges-row {
+  position: relative;
+  z-index: 2;
+}
+
+.challenge-category-line {
+  position: relative;
+  display: block;
+  block-size: 1px;
+  background: var(--category-frame-gold);
+  pointer-events: none;
+}
+
+.challenge-category-pendant,
+.challenge-category-tassels {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  main:has(#challenge-window) .category-header {
+    --category-frame-outset: clamp(1.25rem, 2.8vw, 2.2rem);
+  }
+
+  .challenge-category-pendant {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    display: block;
+    inline-size: 1px;
+    block-size: 1.15rem;
+    background: var(--category-frame-gold);
+  }
+
+  .challenge-category-line-end .challenge-category-pendant {
+    inset-inline: auto 0;
+    block-size: 1.42rem;
+  }
+
+  .challenge-category-pendant::before,
+  .challenge-category-pendant::after {
+    position: absolute;
+    inset-inline-start: 50%;
+    border: 1px solid var(--category-frame-detail);
+    translate: -50%;
+    content: "";
+  }
+
+  .challenge-category-pendant::before {
+    inset-block-start: 100%;
+    inline-size: .35rem;
+    block-size: .35rem;
+    border-radius: 50%;
+  }
+
+  .challenge-category-pendant::after {
+    inset-block-start: calc(100% + .54rem);
+    inline-size: .38rem;
+    block-size: .38rem;
+    transform: scaleY(1.45) rotate(45deg);
+  }
+
+  .challenge-category-tassels {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: .85rem;
+    display: flex;
+    align-items: flex-start;
+    gap: .42rem;
+  }
+
+  .challenge-category-tassels > span {
+    position: relative;
+    inline-size: 1px;
+    block-size: var(--tassel-length);
+    background: var(--category-frame-gold);
+  }
+
+  .challenge-category-tassels > span:nth-child(1) { --tassel-length: .91rem; }
+  .challenge-category-tassels > span:nth-child(2) { --tassel-length: 1.69rem; }
+  .challenge-category-tassels > span:nth-child(3) { --tassel-length: 1.25rem; }
+  .challenge-category-tassels > span:nth-child(4) { --tassel-length: 2.75rem; }
+
+  .challenge-category-tassels > span::after {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-start: 50%;
+    inline-size: .29rem;
+    block-size: .29rem;
+    border: 1px solid var(--category-frame-detail);
+    translate: -50%;
+    rotate: 45deg;
+    content: "";
+  }
+
+  .challenge-category-tassels > span:nth-child(even)::after {
+    border-radius: 50%;
+    rotate: none;
+  }
+}
+
+/* Keep the same palette for every category, with the order set by the grid. */
+.challenges-row > [data-envelope-color="1"] {
+  --envelope-light: #e7ecdf;
+  --envelope-dark: #323f35;
+}
+
+.challenges-row > [data-envelope-color="2"] {
+  --envelope-light: #f2e0e0;
+  --envelope-dark: #57363e;
+}
+
+.challenges-row > [data-envelope-color="3"] {
+  --envelope-light: #e5e9f2;
+  --envelope-dark: #354159;
+}
+
+.challenges-row > [data-envelope-color="4"] {
+  --envelope-light: #f0e5d2;
+  --envelope-dark: #524131;
+}
+
+.challenges-row > [data-envelope-color="5"] {
+  --envelope-light: #dceceb;
+  --envelope-dark: #314b4d;
+}
+
+[data-bs-theme="dark"] main:has(#challenge-window) .challenge-button.btn:not(.challenge-solved) {
+  --card-paper: var(--envelope-dark, var(--season-card));
+}
+
+main:has(#challenge-window) .challenge-button.btn {
+  --card-ink: var(--season-ink);
+  --card-paper: var(--envelope-light, var(--season-card));
+  --card-accent: #9a3347;
+  --envelope-depth: 2.15rem;
+  --envelope-fold: color-mix(in srgb, var(--card-paper) 90%, #c5a46e);
+  --envelope-seam: #c5a46e8c;
+  position: relative;
+  min-height: 8.65rem;
+  padding: 2rem 1rem .5rem;
+  border: 1px solid var(--season-line);
+  border-radius: .45rem;
+  color: var(--card-ink);
+  background: var(--card-paper);
+  box-shadow: inset 0 0 0 3px var(--card-paper), inset 0 0 0 4px #c5a46e42, 0 .28rem .7rem #3423181b;
+}
+
+main:has(#challenge-window) .challenge-button.btn::before,
+main:has(#challenge-window) .challenge-button.btn::after {
+  position: absolute;
+  pointer-events: none;
+  content: "";
+}
+
+main:has(#challenge-window) .challenge-button.btn::before {
+  inset: 4px 4px auto;
+  height: var(--envelope-depth);
+  background:
+    linear-gradient(to top right, transparent 50%, var(--envelope-seam) 50%, var(--envelope-seam) calc(50% + 1px), var(--envelope-fold) calc(50% + 1px)) left / 50% 100% no-repeat,
+    linear-gradient(to top left, transparent 50%, var(--envelope-seam) 50%, var(--envelope-seam) calc(50% + 1px), var(--envelope-fold) calc(50% + 1px)) right / 50% 100% no-repeat;
+}
+
+main:has(#challenge-window) .challenge-button.btn::after {
+  inset-block-start: calc(var(--envelope-depth) - .43rem);
+  inset-inline-start: 50%;
+  inline-size: 1.35rem;
+  aspect-ratio: 1;
+  translate: -50%;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 65%, #2e1620);
+  border-radius: 48% 53% 49% 54%;
+  background:
+    linear-gradient(#f2cda3b8, #f2cda3b8) center / .58rem 1px no-repeat,
+    linear-gradient(#f2cda3b8, #f2cda3b8) center / 1px .58rem no-repeat,
+    linear-gradient(45deg, transparent 44%, #f2cda378 46% 54%, transparent 56%) center / .38rem .38rem no-repeat,
+    linear-gradient(-45deg, transparent 44%, #f2cda378 46% 54%, transparent 56%) center / .38rem .38rem no-repeat,
+    radial-gradient(circle, transparent 49%, #efd2a64d 52% 57%, transparent 60%),
+    linear-gradient(150deg, color-mix(in srgb, var(--card-accent) 85%, #edb68e), var(--card-accent) 65%);
+  box-shadow: inset 0 1px 1px #ffecbd44, 0 1px 2px #21191373;
+}
+
+main:has(#challenge-window) .challenge-button.btn.challenge-solved {
+  --card-paper: var(--season-solved);
+  --card-ink: var(--season-solved-ink);
+  --card-accent: #39684e;
+}
+
+main:has(#challenge-window) .challenge-button.btn:is(:hover, :active, :focus-visible) {
+  border-color: #d0a563;
+  color: var(--card-ink);
+  background: var(--card-paper);
+  box-shadow:
+    inset 0 0 0 3px var(--card-paper),
+    inset 0 0 0 4px var(--season-gold),
+    0 .4rem .9rem #3423182e,
+    0 0 .85rem #e7ac5654;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  main:has(#challenge-window) .challenge-button.btn {
+    transition: translate 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  main:has(#challenge-window) .challenge-button.btn:hover {
+    translate: 0 -2px;
+  }
+
+  main:has(#challenge-window) .challenge-button.btn:active {
+    translate: 0 0;
+  }
+}
+
+main:has(#challenge-window) .challenge-button.btn:focus-visible {
+  outline: 2px solid var(--season-green);
+  outline-offset: 3px;
+}
+
+.challenge-envelope-art {
+  position: absolute;
+  z-index: 1;
+  inline-size: min(33%, 5.6rem);
+  block-size: min(44%, 3.8rem);
+  fill: none;
+  stroke: #c5b38e;
+  stroke-width: 1;
+  opacity: .35;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+:root:not([data-bs-theme="dark"]) .challenge-envelope-art {
+  stroke: #947e56;
+}
+
+.challenge-envelope-art-start {
+  inset-inline-start: .22rem;
+  inset-block-end: .22rem;
+}
+
+.challenge-envelope-art-end {
+  inset-inline-end: .22rem;
+  inset-block-end: .22rem;
+}
+
+.challenges-row > [data-envelope-color="3"] .challenge-button:not(.challenge-solved) .challenge-envelope-art-start {
+  inset-block: .37rem auto;
+  inset-inline-start: .36rem;
+  inline-size: min(24%, 3.6rem);
+  block-size: min(32%, 2.65rem);
+}
+
+.challenge-envelope-art-postmark {
+  inset-block-start: .3rem;
+  inset-inline-end: .39rem;
+  inline-size: min(32%, 4.55rem);
+  block-size: auto;
+  aspect-ratio: 76 / 42;
+  opacity: .2;
+}
+
+.challenge-button .challenge-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.challenge-inner > p {
+  margin-bottom: .5rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.challenge-inner > span {
+  display: inline-block;
+  min-width: 3.1rem;
+  padding: .12rem .55rem;
+  border: 1px solid var(--season-line);
+  border-radius: 2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+#challenge-window .modal-content {
+  --bs-modal-bg: var(--season-paper);
+  --bs-modal-color: var(--season-ink);
+  --bs-modal-border-color: var(--season-line);
+  border-top: .35rem solid #873449;
+  box-shadow: 0 .75rem 2.5rem #241c2540;
+}
+
+#scoreboard > .col-md-12:has(> .table) {
+  overflow-x: auto;
+}
+
+#scoreboard .table > thead > tr > th:first-child {
+  min-width: 3.25rem;
+  white-space: nowrap;
+}
+
+body:has(> .navbar #base-navbars) .btn-primary {
+  --bs-btn-bg: #832e3d;
+  --bs-btn-border-color: #832e3d;
+  --bs-btn-hover-bg: #6e2535;
+  --bs-btn-hover-border-color: #6e2535;
+  --bs-btn-active-bg: #5e1f2d;
+  --bs-btn-active-border-color: #5e1f2d;
+  --bs-btn-disabled-bg: #832e3d;
+  --bs-btn-disabled-border-color: #832e3d;
+}

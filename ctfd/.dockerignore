@@ -2,5 +2,7 @@
 !plugins/
 !plugins/christmas_tree/
 !plugins/christmas_tree/**
+!patches/
+!patches/eager_challenge_tags.py
 **/__pycache__/
 **/*.py[cod]

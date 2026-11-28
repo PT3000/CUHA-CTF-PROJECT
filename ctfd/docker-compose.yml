@@ -2,8 +2,13 @@ services:
   ctfd:
     build: .
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     ports:
-      - "${CTFD_BIND_ADDRESS:-127.0.0.1}:${CTFD_PORT:-8000}:8000"
+      - "${CTFD_BIND_ADDRESS:-127.0.0.1}:${CTFD_PORT:-8001}:8000"
     environment:
       SECRET_KEY: "${CTFD_SECRET_KEY:?Set CTFD_SECRET_KEY in .env}"
       DATABASE_URL: "mysql+pymysql://ctfd:${CTFD_DB_PASSWORD:?Set CTFD_DB_PASSWORD in .env}@db/ctfd?charset=utf8mb4"
@@ -14,14 +19,13 @@ services:
       CHRISTMAS_TREE_CHALLENGE_IDS: "${CHRISTMAS_TREE_CHALLENGE_IDS:-}"
       CHRISTMAS_TREE_STARTING_POINTS: "${CHRISTMAS_TREE_STARTING_POINTS:-30000}"
       CHRISTMAS_TREE_POINTS_PER_SOLVE: "${CHRISTMAS_TREE_POINTS_PER_SOLVE:-500}"
-      CHRISTMAS_TREE_ART_WEIGHT: "${CHRISTMAS_TREE_ART_WEIGHT:-20}"
     depends_on:
       db:
         condition: service_healthy
       cache:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "python", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:8000/', timeout=3).close()"]
+      test: ["CMD", "python", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:8000/login', timeout=3).close()"]
       interval: 15s
       timeout: 5s
       retries: 6

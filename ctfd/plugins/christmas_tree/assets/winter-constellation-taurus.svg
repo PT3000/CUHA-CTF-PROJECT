@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 257">
+  <title>Taurus</title>
+  <desc>The V of the Hyades outlines the bull's face, with Aldebaran near one branch and two horns beyond it.</desc>
+  <defs>
+    <path id="spark" d="M0-8C1-2.5 2.5-1 8 0C2.5 1 1 2.5 0 8C-1 2.5-2.5 1-8 0C-2.5-1-1-2.5 0-8Z"/>
+  </defs>
+  <path d="M30 23L61 104L64 135L75 170L95 150L118 116L158 42M75 170L62 210L30 234" fill="none" stroke="#C5B38E" stroke-opacity=".55" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+  <g fill="#AE8D55" opacity=".79">
+    <use href="#spark" transform="translate(30 23) scale(1.17)"/>
+    <use href="#spark" transform="translate(158 42) scale(0.82)"/>
+    <use href="#spark" transform="translate(61 104) scale(0.74)"/>
+    <use href="#spark" transform="translate(118 116) scale(1.35)"/>
+    <use href="#spark" transform="translate(75 170) scale(0.75)"/>
+    <use href="#spark" transform="translate(30 234) scale(0.62)"/>
+    <circle cx="64" cy="135" r="2.7"/>
+    <circle cx="95" cy="150" r="2.7"/>
+    <circle cx="62" cy="210" r="2.35"/>
+  </g>
+</svg>

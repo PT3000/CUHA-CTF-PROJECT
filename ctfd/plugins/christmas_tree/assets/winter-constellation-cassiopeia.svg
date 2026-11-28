@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 208">
+  <title>Cassiopeia</title>
+  <desc>The five main stars form the recognizable tilted W, from Caph to Segin.</desc>
+  <defs>
+    <path id="spark" d="M0-8C1-2.5 2.5-1 8 0C2.5 1 1 2.5 0 8C-1 2.5-2.5 1-8 0C-2.5-1-1-2.5 0-8Z"/>
+  </defs>
+  <path d="M101 35L128 92L168 65L170 123L209 99" fill="none" stroke="#C5B38E" stroke-opacity=".55" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+  <g fill="#AE8D55" opacity=".79">
+    <use href="#spark" transform="translate(101 35) scale(0.88)"/>
+    <use href="#spark" transform="translate(128 92) scale(1.18)"/>
+    <use href="#spark" transform="translate(168 65) scale(1.39)"/>
+    <use href="#spark" transform="translate(170 123) scale(1.15)"/>
+    <use href="#spark" transform="translate(209 99) scale(0.9)"/>
+    <circle cx="121" cy="54" r="1.6"/>
+    <circle cx="184" cy="48" r="1.7"/>
+    <circle cx="197" cy="142" r="1.5"/>
+  </g>
+</svg>

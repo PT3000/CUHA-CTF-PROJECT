@@ -1,5 +1,5 @@
 (() => {
-  const challengeLink = document.querySelector('#ctfd-challenges');
+  const treePage = document.querySelector('.christmas-tree');
   const refreshButton = document.querySelector('#refresh-team');
   const teamFeedback = document.querySelector('#team-feedback');
   const layoutFeedback = document.querySelector('#layout-feedback');
@@ -62,7 +62,6 @@
   const ledStrandId = '9';
   const svgNamespace = 'http://www.w3.org/2000/svg';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const reviewTeam = new URLSearchParams(window.location.search).get('review_team');
   const growthStages = ['묘목', '어린 전나무', '성탄 전나무', '별빛 전나무', '세계수'];
   const defaultPositions = {
     1: { x: 0.5, y: 0.095 },
@@ -96,7 +95,6 @@
   let deliverySlot = 0;
   let csrfToken = '';
   let ready = false;
-  let readOnly = reviewTeam !== null;
   let economyBusy = false;
   let refreshing = false;
   let pendingRequests = 0;
@@ -106,6 +104,10 @@
   let layoutDirty = false;
   let savingLayout = false;
   let saveTimer = 0;
+  let refreshTimer = 0;
+  let pageActive = true;
+  let teamPollingAllowed = true;
+  let renderedView = null;
 
   function ornamentName(id) {
     const button = ornaments.get(id);
@@ -155,7 +157,7 @@
       const count = quantityOwned(id);
       const available = quantityAvailable(id);
       total += count;
-      const unavailable = readOnly || layoutFull || available <= 0;
+      const unavailable = layoutFull || available <= 0;
       button.setAttribute('aria-disabled', String(unavailable));
       button.toggleAttribute('disabled', unavailable);
 
@@ -179,8 +181,8 @@
     tray.dataset.count = String(total);
     unlockedCount.textContent = total;
     placedCount.textContent = placed.size;
-    resetLayout.disabled = readOnly || placed.size === 0;
-    removeDecoration.disabled = readOnly || !selection?.placementId;
+    resetLayout.disabled = placed.size === 0;
+    removeDecoration.disabled = !selection?.placementId;
     updateSizeControl(placed.get(selection?.placementId));
     scene.toggleAttribute('data-placing', selection !== null || Boolean(pointer?.preview));
   }
@@ -196,8 +198,8 @@
     const isIndoor = activeEffects.has('indoor');
     outdoorChoice.setAttribute('aria-pressed', String(!isIndoor));
     indoorChoice.setAttribute('aria-pressed', String(isIndoor));
-    outdoorChoice.disabled = readOnly || !ready || economyBusy;
-    indoorChoice.disabled = readOnly || !ready || economyBusy || !purchasedEffects.has('indoor');
+    outdoorChoice.disabled = !ready || economyBusy;
+    indoorChoice.disabled = !ready || economyBusy || !purchasedEffects.has('indoor');
 
     for (const { card, action, ownedCount, name, price, limit, ornamentId, effect } of shopItems) {
       const count = quantityOwned(ornamentId);
@@ -216,7 +218,7 @@
         card.dataset.state = points >= price ? 'available' : 'unaffordable';
         label = points >= price ? '구매' : '포인트 부족';
       }
-      action.disabled = readOnly || !ready || economyBusy || atLimit || card.dataset.state === 'unaffordable';
+      action.disabled = !ready || economyBusy || atLimit || card.dataset.state === 'unaffordable';
       action.textContent = label;
       action.setAttribute('aria-label', `${name} ${label}`);
     }
@@ -243,8 +245,7 @@
   }
 
   async function requestTeam(payload) {
-    const query = reviewTeam === null ? '' : `?${new URLSearchParams({ review_team: reviewTeam })}`;
-    const response = await fetch(payload ? './api/action' : `./api/state${query}`, {
+    const response = await fetch(payload ? './api/action' : './api/state', {
       method: payload ? 'POST' : 'GET',
       credentials: 'same-origin',
       cache: 'no-store',
@@ -254,19 +255,26 @@
         : { 'Accept': 'application/json' },
       body: payload ? JSON.stringify(payload) : undefined,
     });
+    const expired = response.redirected || response.status === 401 || response.status === 403;
+    if (!payload && expired) {
+      teamPollingAllowed = false;
+      stopTeamPolling();
+    }
     if (!response.headers.get('Content-Type')?.includes('application/json')) {
-      const expired = response.redirected || response.status === 401 || response.status === 403;
-      throw new Error(expired ? 'CTFd에 로그인하고 팀 트리를 다시 열어 주세요.' : '팀 트리 서버에 연결하지 못했어요.');
+      throw new Error(expired ? '다시 로그인하고 팀 트리를 열어 주세요.' : '팀 트리 서버에 연결하지 못했어요.');
     }
     return { response, data: await response.json() };
   }
 
   function applyTeamState(state, forceLayout = false) {
     const initial = !ready;
+    const { csrfToken: nextToken, layoutVersion: version, placements, growth, ...view } = state;
+    const viewKey = JSON.stringify(view);
+    const needsLayout = initial || forceLayout || (version !== layoutVersion && !layoutDirty && !savingLayout && !pointer);
+    csrfToken = nextToken ?? '';
+    if (!needsLayout && viewKey === renderedView) return;
+
     ready = true;
-    readOnly ||= state.readOnly === true;
-    document.body.toggleAttribute('data-read-only', readOnly);
-    csrfToken = state.csrfToken ?? '';
     points = state.points;
     solved = state.solved;
     totalChallenges = state.total;
@@ -281,24 +289,23 @@
     activeEffects = nextEffects;
 
     treeTitle.textContent = `${state.teamName} 팀 트리`;
-    challengeLink.href = state.challengeUrl;
-    challengeLink.removeAttribute('aria-disabled');
 
     const receivedGift = !initial && state.pendingGifts > pendingGifts;
     pendingGifts = state.pendingGifts;
-    if (!readOnly && receivedGift) {
+    if (receivedGift) {
       showTeamFeedback('success', '문제 풀이 보상으로 선물이 도착했어요.');
       if (pendingGifts <= giftPackages.length) deliverGift(pendingGifts);
     }
     renderGifts();
 
-    if (initial || forceLayout || (state.layoutVersion !== layoutVersion && !layoutDirty && !savingLayout && !pointer)) {
-      layoutVersion = state.layoutVersion;
-      restoreLayout(state.placements, state.growth);
+    if (needsLayout) {
+      layoutVersion = version;
+      restoreLayout(placements, growth);
     }
     updateInterface();
     updateShop();
     updateGrowthChoices();
+    renderedView = viewKey;
   }
 
   async function refreshTeam(notify = false) {
@@ -322,7 +329,7 @@
   }
 
   async function runEconomyAction(payload, onSuccess, feedback) {
-    if (!ready || readOnly || economyBusy) return false;
+    if (!ready || economyBusy) return false;
     economyBusy = true;
     updateShop();
     renderGifts();
@@ -361,7 +368,7 @@
   }
 
   async function saveLayout() {
-    if (!layoutDirty || readOnly) return;
+    if (!layoutDirty) return;
     layoutDirty = false;
     savingLayout = true;
     try {
@@ -388,7 +395,7 @@
   }
 
   function scheduleLayoutSave(delay = 450) {
-    if (!ready || readOnly) return;
+    if (!ready) return;
     layoutDirty = true;
     setFeedback(layoutFeedback, '', '팀 트리에 저장하는 중이에요.');
     window.clearTimeout(saveTimer);
@@ -490,7 +497,6 @@
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'tree-ornament';
-    button.disabled = readOnly;
     button.dataset.ornament = ornamentId;
     button.dataset.placementId = placementId;
     if (cordEnd) button.dataset.cordEnd = cordEnd;
@@ -578,7 +584,7 @@
   }
 
   function addOrMovePlacement(ornamentId, position, placementId, cordEnd, presentColor) {
-    if (!ready || readOnly) return;
+    if (!ready) return;
     let entry = placed.get(placementId);
     const isNew = !entry;
     const bounds = scene.getBoundingClientRect();
@@ -638,7 +644,7 @@
   }
 
   function removePlacement(placementId) {
-    if (!ready || readOnly) return;
+    if (!ready) return;
     const entry = placed.get(placementId);
     if (!entry) return;
 
@@ -657,11 +663,11 @@
   function updateGrowthChoices() {
     const index = growthThresholds.findLastIndex((threshold) => threshold <= solved);
     const next = growthThresholds[index + 1];
-    growthNext.textContent = !ready || readOnly ? '' : (Number.isFinite(next) ? `다음 단계까지 ${next - solved}개` : '모든 단계 해금');
+    growthNext.textContent = !ready ? '' : (Number.isFinite(next) ? `다음 단계까지 ${next - solved}개` : '모든 단계 해금');
 
     for (const button of growthChoices) {
       const choiceIndex = Number(button.dataset.growthChoice) - 1;
-      button.disabled = readOnly || !ready || choiceIndex > index;
+      button.disabled = !ready || choiceIndex > index;
       button.setAttribute('aria-pressed', String(choiceIndex === growthIndex));
       if (ready && choiceIndex > 0) button.querySelector('.growth-choice-threshold').textContent = `문제 ${growthThresholds[choiceIndex]}개`;
     }
@@ -694,7 +700,7 @@
   });
 
   function renderGifts() {
-    const slots = readOnly ? 0 : Math.min(pendingGifts, giftPackages.length);
+    const slots = Math.min(pendingGifts, giftPackages.length);
     const occupied = new Set();
     for (const parcel of Array.from(giftRow.children)) {
       const slot = Number(parcel.dataset.gift);
@@ -710,7 +716,7 @@
     for (let slot = 1; slot <= slots; slot += 1) {
       if (!occupied.has(slot) && slot !== deliverySlot) showGift(slot);
     }
-    openNextGift.hidden = readOnly || pendingGifts === 0;
+    openNextGift.hidden = pendingGifts === 0;
     openNextGift.disabled = economyBusy || !giftRow.querySelector('.gift-box');
     openNextGift.textContent = pendingGifts > 1 ? `선물 열기 · ${pendingGifts}개` : '선물 열기';
   }
@@ -804,7 +810,7 @@
   }
 
   tray.addEventListener('click', (event) => {
-    if (!ready || readOnly) return;
+    if (!ready) return;
     const button = event.target.closest('button[data-ornament]');
     const id = button?.dataset.ornament;
     if (quantityAvailable(id) === 0) return;
@@ -819,7 +825,7 @@
   });
 
   scene.addEventListener('click', (event) => {
-    if (!ready || readOnly) return;
+    if (!ready) return;
     if (event.target.closest('.gift-box, .gift-reveal')) return;
 
     const position = positionOnScene(event.clientX, event.clientY);
@@ -836,7 +842,7 @@
 
   for (const area of [tray, decorations]) {
     area.addEventListener('pointerdown', (event) => {
-      if (!ready || readOnly) return;
+      if (!ready) return;
       const source = event.target.closest('button[data-ornament]');
       const id = source?.dataset.ornament;
       const placementId = source?.dataset.placementId;
@@ -857,7 +863,7 @@
       pointer.preview.remove();
       delete pointer.source.dataset.dragging;
       delete scene.dataset.dropTarget;
-      document.body.removeAttribute('data-dragging-ornament');
+      treePage.removeAttribute('data-dragging-ornament');
     }
 
     pointer = null;
@@ -881,11 +887,11 @@
       if (pointer.id === presentId) pointer.presentColor = entry?.presentColor ?? drawPresentColor();
       preview.setAttribute('aria-hidden', 'true');
       preview.append(cloneIcon(pointer.id, pointer.presentColor));
-      document.body.append(preview);
+      treePage.append(preview);
 
       pointer.preview = preview;
       pointer.source.dataset.dragging = 'true';
-      document.body.setAttribute('data-dragging-ornament', '');
+      treePage.setAttribute('data-dragging-ornament', '');
       selection = null;
       updateInterface();
     }
@@ -933,7 +939,7 @@
   }, true);
 
   decorations.addEventListener('keydown', (event) => {
-    if (!ready || readOnly) return;
+    if (!ready) return;
     const button = event.target.closest('.tree-ornament');
     if (!button) return;
 
@@ -977,7 +983,7 @@
   });
 
   resetLayout.addEventListener('click', () => {
-    if (!ready || readOnly) return;
+    if (!ready) return;
     const first = placed.get(selection?.placementId) ?? placed.values().next().value;
     selection = null;
     clearPointer();
@@ -993,7 +999,7 @@
   removeDecoration.addEventListener('click', () => removePlacement(selection?.placementId));
 
   sizeInput.addEventListener('input', () => {
-    if (!ready || readOnly) return;
+    if (!ready) return;
     const entry = placed.get(selection?.placementId);
     if (!entry) return;
 
@@ -1009,23 +1015,47 @@
     scheduleLayoutSave();
   });
 
+  function stopTeamPolling() {
+    window.clearTimeout(refreshTimer);
+    refreshTimer = 0;
+  }
+
+  function scheduleTeamPoll() {
+    stopTeamPolling();
+    if (teamPollingAllowed && pageActive && !document.hidden) {
+      refreshTimer = window.setTimeout(pollTeam, 8000);
+    }
+  }
+
+  async function pollTeam() {
+    stopTeamPolling();
+    if (!teamPollingAllowed || !pageActive || document.hidden) return;
+    if (layoutDirty && !saveTimer && !pendingRequests) scheduleLayoutSave(0);
+    else await refreshTeam();
+    scheduleTeamPoll();
+  }
+
   refreshButton.addEventListener('click', () => refreshTeam(true));
   document.addEventListener('visibilitychange', () => {
-    if (!readOnly && !document.hidden) refreshTeam();
+    if (document.hidden) stopTeamPolling();
+    else pollTeam();
+  });
+  window.addEventListener('pagehide', () => {
+    pageActive = false;
+    stopTeamPolling();
+  });
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    pageActive = true;
+    pollTeam();
   });
   window.addEventListener('beforeunload', (event) => {
     if (!layoutDirty && !savingLayout) return;
     event.preventDefault();
     event.returnValue = '';
   });
-  window.setInterval(() => {
-    if (readOnly || document.hidden) return;
-    if (layoutDirty && !saveTimer && !pendingRequests) scheduleLayoutSave(0);
-    else refreshTeam();
-  }, 8000);
-
   updateInterface();
   updateShop();
   selectGrowth(0);
-  refreshTeam();
+  refreshTeam().finally(scheduleTeamPoll);
 })();

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 258">
+  <title>Orion</title>
+  <desc>The shoulders and feet surround the three aligned belt stars. The sword hangs below the belt.</desc>
+  <defs>
+    <path id="spark" d="M0-8C1-2.5 2.5-1 8 0C2.5 1 1 2.5 0 8C-1 2.5-2.5 1-8 0C-2.5-1-1-2.5 0-8Z"/>
+  </defs>
+  <path d="M33 49L80 20L113 56L97 115L81 124L66 133L33 49M66 133L52 219L139 214L97 115M81 124L75 150L72 164L69 179" fill="none" stroke="#C5B38E" stroke-opacity=".55" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+  <g fill="#AE8D55" opacity=".79">
+    <use href="#spark" transform="translate(33 49) scale(1.4)"/>
+    <use href="#spark" transform="translate(113 56) scale(0.91)"/>
+    <use href="#spark" transform="translate(97 115) scale(0.61)"/>
+    <use href="#spark" transform="translate(81 124) scale(0.76)"/>
+    <use href="#spark" transform="translate(66 133) scale(0.67)"/>
+    <use href="#spark" transform="translate(139 214) scale(1.35)"/>
+    <use href="#spark" transform="translate(52 219) scale(0.77)"/>
+    <circle cx="80" cy="20" r="2.9"/>
+    <circle cx="75" cy="150" r="2.4"/>
+    <circle cx="72" cy="164" r="2.15"/>
+    <circle cx="69" cy="179" r="2.45"/>
+  </g>
+</svg>
