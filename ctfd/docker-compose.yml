@@ -8,7 +8,7 @@ services:
         max-size: "10m"
         max-file: "3"
     ports:
-      - "${CTFD_BIND_ADDRESS:-127.0.0.1}:${CTFD_PORT:-8001}:8000"
+      - "${CTFD_BIND_ADDRESS:-127.0.0.1}:${CTFD_PORT:-5000}:8000"
     environment:
       SECRET_KEY: "${CTFD_SECRET_KEY:?Set CTFD_SECRET_KEY in .env}"
       DATABASE_URL: "mysql+pymysql://ctfd:${CTFD_DB_PASSWORD:?Set CTFD_DB_PASSWORD in .env}@db/ctfd?charset=utf8mb4"
