@@ -1,0 +1,16 @@
+services:
+  santa-guard:
+    build: .
+    environment:
+      MINDLOGIC_API_KEY: ${MINDLOGIC_API_KEY:-}
+      MINDLOGIC_MODEL: ${MINDLOGIC_MODEL:-gemini-3.1-flash-lite}
+      MINDLOGIC_MAX_CALLS: ${MINDLOGIC_MAX_CALLS:-50}
+      SANTA_FLAG: ${SANTA_FLAG:-}
+      SANTA_DB_PATH: /app/data/workshop.sqlite3
+    ports:
+      - "${SANTA_BIND:-0.0.0.0}:8008:8008"
+    volumes:
+      - workshop-data:/app/data
+
+volumes:
+  workshop-data:

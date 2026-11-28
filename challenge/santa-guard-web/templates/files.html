@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% from "workshop_ui.html" import icon, heading %}
+{% block title %}관리자 관제실 · 산타의 비밀 창고{% endblock %}
+{% block body %}
+<section class="work-view archive-view">
+  {{ heading('관리자 관제실', 'logs', '자료실 열람 승인 · 관리자 세션') }}
+  <nav class="terminal-directory" aria-label="관제실 메뉴">
+    <a href="#case-files">{{ icon('file') }} 기밀 자료실</a>
+    <a href="#access-log">{{ icon('logs') }} 접속 기록</a>
+    <a href="#staff-access">{{ icon('employees') }} 직원 관리</a>
+  </nav>
+  <article class="terminal-device" id="case-files" tabindex="-1">
+    <div class="terminal-bar"><h2>{{ icon('file') }} 기밀 자료실</h2><span class="terminal-light" aria-hidden="true"></span></div>
+    <div class="terminal-body case-body">
+      <div class="case-file">
+        <div class="case-file-icon">{{ icon('file') }}</div>
+        <div><h3>북쪽 노선 N-07의 봉인 기록</h3><p>창고 퍼즐 4단계 완료</p></div>
+      </div>
+      <h3 class="cipher-title">암호문</h3>
+      <pre class="warehouse-cipher"><code id="ciphertext">{{ ciphertext }}</code></pre>
+      <div class="cipher-key">
+        <table>
+          <caption>알파벳 치환표</caption>
+          <tbody>
+            <tr><th scope="row">평문</th><td><code>{{ plain_alphabet }}</code></td></tr>
+            <tr><th scope="row">암호문</th><td><code>{{ cipher_alphabet }}</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <details class="work-hint"><summary>복호화 단서</summary><p>암호문에서 읽은 글자를 표의 아랫줄에서 찾고, 바로 위의 평문 글자로 바꾸세요. 대소문자는 유지하고 숫자와 기호는 그대로 옮기세요.</p></details>
+      <form id="flag-form" class="stack terminal-form flag-check" method="post" action="{{ url_for('verify_flag') }}" aria-describedby="flag-help">
+        <label>복호화한 플래그<input name="flag" required maxlength="106" autocomplete="off" spellcheck="false" placeholder="xmas{...}"></label>
+        <button type="submit">플래그 확인</button>
+      </form>
+      <p id="flag-help" class="terminal-caption">여기서 복호화한 값을 확인할 수 있습니다.</p>
+      <p id="flag-notice" class="notice inline-notice terminal-notice" role="status" hidden></p>
+    </div>
+  </article>
+  <div class="control-panels">
+    <section id="access-log" class="terminal-device" tabindex="-1">
+      <div class="terminal-bar"><h2>{{ icon('logs') }} 접속 기록</h2></div>
+      <div class="terminal-body"><p class="terminal-caption">이 탭에서 열어본 공방 화면</p><ol class="access-events" data-visit-list><li>기록을 확인하는 중입니다.</li></ol><noscript>접속 기록은 자바스크립트를 켜면 표시됩니다.</noscript></div>
+    </section>
+    <section id="staff-access" class="terminal-device" tabindex="-1">
+      <div class="terminal-bar"><h2>{{ icon('employees') }} 직원 관리</h2></div>
+      <div class="terminal-body"><p class="terminal-caption">공방 계정 권한표</p><dl class="permission-list"><dt>일반 직원</dt><dd>재고·배송 기록 열람</dd><dt>관리자</dt><dd>직원 화면 및 기밀 자료 열람</dd></dl><a class="terminal-text-link" href="{{ url_for('employee') }}">직원 대시보드 보기</a></div>
+    </section>
+  </div>
+</section>
+{% endblock %}

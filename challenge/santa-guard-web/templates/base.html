@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf }}">
+  <meta name="theme-color" content="#171d34">
+  <title>{% block title %}산타의 비밀 창고{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  {% if role > 0 %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='interiors.css') }}">
+  <script src="{{ url_for('static', filename='interiors.js') }}" defer></script>
+  {% endif %}
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+  {% block head_assets %}{% endblock %}
+</head>
+<body class="{{ 'exterior' if role == 0 else ('interior interior-admin' if request.path.startswith('/admin') else 'interior interior-employee') }}">
+  {% if role == 0 %}
+  <div class="winter-world" aria-hidden="true">
+    <div class="night-stars"><i></i><i></i><i></i></div>
+    <div class="sky-snow"></div>
+  </div>
+  {% endif %}
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="{{ url_for('index') }}">
+        <span class="sign-rope" aria-hidden="true"></span><span class="sign-snow" aria-hidden="true"></span>
+        <span class="sign-icon pix-icon icon-gift" aria-hidden="true"></span>
+        <span>산타의 비밀 창고</span>
+        <span class="sign-lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      </a>
+      {% if role > 0 %}
+      <div class="header-actions">
+        <span class="badge">{{ '관리자 접속' if role == 2 else '직원 접속' }}</span>
+        <form method="post" action="{{ url_for('logout') }}">
+          <input type="hidden" name="_csrf" value="{{ csrf }}">
+          <button class="text-button nav-logout" type="submit">로그아웃</button>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </header>
+  <main{% if role > 0 %} class="workspace"{% endif %}>
+  {% if role > 0 %}
+    <aside class="progress account-nav" aria-label="사내 메뉴">
+      <h2>공방 내부망</h2>
+      <nav>
+        {% set admin_links = [('warehouse', '창고 정리', 'inventory'), ('admin_files', '관리자 자료실', 'security')] if role == 2 else [('admin_login', '관리자 자료실', 'security')] %}
+        {% for endpoint, label, icon in [('employee', '직원 대시보드', 'house'), ('employee_inventory', '재고 현황', 'gift'), ('employee_delivery', '배송 기록', 'delivery'), ('employee_notice', '긴급 공지', 'notice')] + admin_links %}
+          <a href="{{ url_for(endpoint) }}"{% if request.endpoint == endpoint %} aria-current="page"{% endif %}><span class="pix-icon icon-{{ icon }}" aria-hidden="true"></span>{{ label }}</a>
+        {% endfor %}
+      </nav>
+    </aside>
+  {% endif %}
+  <div class="main-content">{% block body %}{% endblock %}</div>
+  </main>
+  {% block overlay %}{% endblock %}
+</body>
+</html>

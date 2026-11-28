@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% from "workshop_ui.html" import icon, heading, stock %}
+{% block title %}재고 현황 · 산타의 비밀 창고{% endblock %}
+{% block body %}
+<section class="work-view">
+  {{ heading('재고 현황', 'inventory', '12월 24일 · 선물 창고') }}
+  <section class="work-panel">
+    <div class="work-panel-title"><h2>{{ icon('gift') }} 야간 창고 장부</h2></div>
+    {{ stock() }}
+  </section>
+  <article class="order-slip">
+    {{ icon('memo') }}
+    <div><h2>창고 인계 메모</h2><p>북쪽 선반의 마지막 선물은 배송 조사가 끝날 때까지 출고를 보류합니다.</p>
+    <a href="{{ url_for('employee_delivery') }}">배송 기록 보기</a></div>
+  </article>
+</section>
+{% endblock %}

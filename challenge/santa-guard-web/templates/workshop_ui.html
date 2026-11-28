@@ -1,0 +1,28 @@
+{% macro icon(name) -%}<span aria-hidden="true" class="pix-icon icon-{{ name }}"></span>{%- endmacro %}
+
+{% macro heading(title, symbol, subtitle='') -%}
+<header class="work-heading">
+  <span class="work-emblem">{{ icon(symbol) }}</span>
+  <div><h1>{{ title }}</h1>{% if subtitle %}<p>{{ subtitle }}</p>{% endif %}</div>
+</header>
+{%- endmacro %}
+
+{% macro stock() -%}
+<div class="stock-ledger" data-stock-url="{{ url_for('employee_delivery') }}">
+  <ul class="stock-grid" aria-label="야간 배송에 등록된 선물 재고">
+    {% for name, mark, ref, icon_name, slot in [
+      ('북쪽 선반', '파란 별 포장', 'N-07', 'gift', 'north'),
+      ('포장대', '은색 종 포장', 'N-12', 'inventory', 'packing'),
+      ('동쪽 선반', '파란 별 포장', 'E-07', 'delivery', 'east')
+    ] %}
+    <li class="stock-slot stock-{{ slot }}">
+      <div class="stock-sprite">{{ icon(icon_name) }}</div>
+      <div class="stock-label"><span class="record-id">{{ ref }}</span><h3>{{ name }}</h3><p>{{ mark }}</p></div>
+      <p class="stock-count"><span>남은 선물</span> <strong data-stock-ref="{{ ref }}">—</strong><span>개</span></p>
+    </li>
+    {% endfor %}
+  </ul>
+  <p class="stock-help">오늘의 배송 목록에 등록된 선물을 기준으로 집계합니다.</p>
+  <p class="stock-failure" role="status" hidden>수량을 불러오지 못했습니다. <a href="{{ url_for('employee_delivery') }}">배송 기록 확인</a></p>
+</div>
+{%- endmacro %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "workshop_ui.html" import icon, heading %}
+{% block title %}관리자 로그인 · 산타의 비밀 창고{% endblock %}
+{% block body %}
+<section class="work-view archive-view">
+  {{ heading('보안 단말기', 'security', '관리자 자료실 · 접근 제한') }}
+  <div class="archive-login-layout terminal-grid">
+    <article class="terminal-device">
+      <div class="terminal-bar"><h2>{{ icon('shield') }} 관리자 인증</h2><span class="terminal-light" aria-hidden="true"></span></div>
+      <div class="terminal-body">
+        <form class="stack terminal-form" method="post" action="{{ url_for('admin_login') }}">
+          <input type="hidden" name="_csrf" value="{{ csrf }}">
+          {% if error %}<p class="terminal-error" role="alert">{{ error }}</p>{% endif %}
+          <label>관리자 아이디<input name="admin_id" required maxlength="60" autocomplete="username" spellcheck="false"></label>
+          <label>비밀번호<input name="password" type="password" required maxlength="128" autocomplete="current-password"></label>
+          <button type="submit">로그인</button>
+        </form>
+      </div>
+    </article>
+    {% include "memo.html" %}
+  </div>
+</section>
+{% endblock %}

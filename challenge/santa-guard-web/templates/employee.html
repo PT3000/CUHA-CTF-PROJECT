@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% from "workshop_ui.html" import icon, heading, stock %}
+{% block title %}직원 대시보드 · 산타의 비밀 창고{% endblock %}
+{% block body %}
+<section class="work-view">
+  {{ heading('직원 대시보드', 'house', '12월 24일 · 북극 공방 야간 근무') }}
+  <article class="quest-board">
+    <div class="board-scenery" aria-hidden="true"></div>
+    <div class="board-sheet">
+      <span class="pinned-label">{{ icon('notice') }} 긴급 공지</span>
+      <h2>마지막 선물의 행방</h2>
+      <p>북쪽 노선의 배송 기록이 누락됐습니다. 조사 자료는 관리자 자료실로 이관했습니다.</p>
+      <a class="work-action" href="{{ url_for('admin_login') }}">관리자 자료실 열기 {{ icon('key') }}</a>
+    </div>
+  </article>
+  <section class="work-panel">
+    <div class="work-panel-title"><h2>{{ icon('inventory') }} 선물 재고</h2><a href="{{ url_for('employee_inventory') }}">재고 현황</a></div>
+    {{ stock() }}
+  </section>
+  <a class="work-ribbon" href="{{ url_for('employee_delivery') }}">{{ icon('delivery') }}<span><strong>야간 배송 기록</strong><small>노선과 포장 표식을 대조하세요.</small></span><span class="ribbon-arrow" aria-hidden="true"></span></a>
+</section>
+{% endblock %}

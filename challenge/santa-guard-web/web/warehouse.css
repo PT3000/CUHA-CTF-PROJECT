@@ -1,0 +1,77 @@
+.poly-room { --poly-edge: #101e2a; gap: 13px; }
+.poly-stagebar, .poly-readout, .poly-board-foot, .poly-tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.poly-stagebar { padding: 9px 13px; background: #203c40; border: 2px solid #4e7266; box-shadow: inset 0 2px #34554e; }
+.poly-stagebar h2 { display: flex; gap: 10px; align-items: baseline; color: #fff1ca; }
+#poly-stage-text { color: #c8daaf; font: .82rem var(--body-font); }
+#poly-stages { display: flex; gap: 5px; padding: 0; list-style: none; }
+#poly-stages li { display: grid; place-items: center; width: 23px; height: 23px; border: 1px solid #62756a; color: #a4b5b1; font-size: .73rem; }
+#poly-stages li[data-state="complete"] { background: #507658; color: #fff4c9; }
+#poly-stages li[aria-current="step"] { color: #312b26; border-color: #ffe3a1; background: #e9bc72; }
+.poly-station { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(210px, 1fr); gap: 14px; align-items: start; }
+.poly-worktop, .poly-rack { min-width: 0; overflow: hidden; background: #192b37; border: 3px solid var(--poly-edge); box-shadow: inset 0 0 0 1px #587069, 3px 3px #0b1522; }
+.poly-readout { padding: 9px 13px; color: #e5eccd; border-bottom: 2px solid #11222b; background: #2c4849; }
+.poly-readout h3 { display: flex; align-items: center; gap: 7px; font-size: .96rem; }
+.poly-readout .pix-icon { --tile: 20px; }
+#poly-board-size { margin-left: auto; }
+.poly-readout > span, .poly-board-foot { font-size: .8rem; color: #cbd4bc; font-variant-numeric: tabular-nums; }
+.poly-frame { position: relative; width: min(calc(100% - 30px), 395px); margin: 16px auto 0; padding: 8px; background: repeating-linear-gradient(0deg,#8a6344 0 3px,#8f6847 3px 6px); border: 3px solid #312b30; box-shadow: inset 2px 2px #c39361, inset -2px -2px #674838, 2px 3px #0e1924; }
+.poly-frame::before, .poly-frame::after { content: ""; position: absolute; top: 1px; width: 4px; height: 4px; background: #dec291; box-shadow: 1px 1px #63472e; }
+.poly-frame::before { left: 1px; } .poly-frame::after { right: 2px; }
+#poly-board { display: grid; aspect-ratio: 1; background: #18242a; border: 2px solid #463d39; gap: 0; user-select: none; }
+#poly-board[data-size="4"] { grid-template-columns: repeat(4,1fr); grid-template-rows: repeat(4,1fr); }
+#poly-board[data-size="5"] { grid-template-columns: repeat(5,1fr); grid-template-rows: repeat(5,1fr); }
+#poly-board[data-size="6"] { grid-template-columns: repeat(6,1fr); grid-template-rows: repeat(6,1fr); }
+#poly-board[data-size="7"] { grid-template-columns: repeat(7,1fr); grid-template-rows: repeat(7,1fr); }
+.poly-room button.poly-cell { display: grid; position: relative; place-items: center; min-width: 0; min-height: 0; padding: 0; border: 1px solid #3c5050; border-radius: 0; box-shadow: inset 1px 1px #34494b; background: #293a40; touch-action: none; translate: none; }
+.poly-room .poly-cell[data-floor="outside"] { background: #152329; border-color: #152329; box-shadow: none; }
+.poly-room .poly-cell[data-floor="blocked"], .poly-key-tile { background: repeating-linear-gradient(45deg,#6f675a 0 5px,#837762 5px 8px); border: 2px solid #4e4842; box-shadow: inset 2px 2px #a89676, inset -2px -2px #5c5349; }
+.poly-room .poly-cell[data-floor="blocked"]::before { content: ""; width: 46%; height: 46%; border: 3px double #574d42; }
+.poly-color-0 { --wrap: #b85061; --light: #f79797; --shade: #783c50; --ribbon: #ffd79b; }
+.poly-color-1 { --wrap: #3f8b75; --light: #8bd3a6; --shade: #2d6459; --ribbon: #ffdc90; }
+.poly-color-2 { --wrap: #cf9959; --light: #ffdb96; --shade: #936a43; --ribbon: #8a4b54; }
+.poly-color-3 { --wrap: #587daf; --light: #a7c6e2; --shade: #3b547e; --ribbon: #dce9dc; }
+.poly-color-4 { --wrap: #9b6aab; --light: #d9a7e2; --shade: #704d80; --ribbon: #ffddab; }
+.poly-color-5 { --wrap: #b66b4c; --light: #ffb18b; --shade: #864e41; --ribbon: #efdda5; }
+.poly-color-6 { --wrap: #528e9b; --light: #9ed7d8; --shade: #3b6877; --ribbon: #fcce8c; }
+.poly-color-7 { --wrap: #8b985b; --light: #dbe6a6; --shade: #596e48; --ribbon: #f6c1bc; }
+.poly-color-8 { --wrap: #ad7191; --light: #f3bbcf; --shade: #744e6b; --ribbon: #fce7a0; }
+.poly-room .poly-cell[data-occupant] { background: var(--wrap); border: 1px solid var(--shade); box-shadow: inset 2px 2px var(--light), inset -2px -2px var(--shade); cursor: grab; }
+.poly-room .poly-cell[data-occupant]::before { content: ""; width: 100%; height: 12%; background: var(--ribbon); opacity: .5; }
+.poly-room .poly-cell[data-selected] { filter: brightness(1.13); }
+.poly-room .poly-cell[data-preview]::after { content: ""; position: absolute; inset: 2px; border: 2px dashed #d9f6ab; background: #95c17a77; pointer-events: none; }
+.poly-room .poly-cell[data-preview="invalid"]::after { border-color: #ffaea0; background: repeating-linear-gradient(-45deg,#bb514970 0 4px,#be51491a 4px 8px); }
+.poly-room .poly-cell:focus-visible { z-index: 1; outline: 3px solid #ffe8a1; outline-offset: -4px; }
+.poly-board-foot { margin: 9px auto 14px; width: min(calc(100% - 30px),395px); }
+#poly-fixed-key { display: inline-flex; align-items: center; gap: 5px; }
+.poly-key-tile { width: 13px; height: 13px; }
+#poly-tray { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; padding: 11px; }
+.poly-room button.poly-piece { position: relative; display: grid; justify-items: center; align-content: center; gap: 4px; min-width: 0; min-height: 70px; padding: 7px 3px 4px; border: 2px solid #48605c; background: #21333e; box-shadow: inset 1px 1px #34474d; cursor: grab; touch-action: none; translate: none; color: #e7ebda; font: .78rem var(--body-font); }
+.poly-room .poly-piece[aria-pressed="true"] { border-color: #efce87; background: #394744; }
+.poly-room .poly-piece[data-placed]::after { content: "✓"; position: absolute; top: 0; right: 3px; color: #c5e3a5; }
+.poly-room .poly-piece:hover { background: #31434a; }
+.poly-mini { display: inline-flex; flex-direction: column; justify-content: center; flex-shrink: 0; }
+.poly-mini-row { display: flex; }
+.poly-mini-cell { width: 11px; height: 11px; }
+.poly-mini-cell.filled { background: var(--wrap); border-top: 1px solid var(--light); border-left: 1px solid var(--light); box-shadow: inset -1px -1px var(--shade); }
+.poly-tools { padding: 0 11px 12px; justify-content: stretch; }
+.poly-tools button, #poly-reset, #poly-reload { min-height: 36px; padding: 3px 8px; font-size: .82rem; color: #e6efda; background: #304b46; box-shadow: inset 1px 2px #587669, 1px 2px #111e26; border: 2px solid #172a2d; }
+.poly-tools button { flex: 1; }
+.poly-tools button:disabled, #poly-reset:disabled { opacity: .55; cursor: default; }
+#poly-rotate > span { font: bold 1.18rem/1 system-ui; }
+.poly-console { padding: 10px 13px; background: #20333d; border-left: 3px solid #a88b57; color: #d7dfcf; font-size: .83rem; }
+.poly-console summary { margin-top: 4px; color: #d9c79d; cursor: pointer; }
+.poly-console details p { margin-top: 3px; }
+#poly-status:not(:empty) { margin-top: 5px; color: #f6dda8; }
+#poly-status[data-error="true"] { color: #ffbaae; }
+.poly-drag-layer { position: fixed; inset: 0; z-index: 20; overflow: hidden; pointer-events: none; }
+.poly-float { position: absolute; left: 0; top: 0; opacity: .9; filter: drop-shadow(2px 3px 2px #12232b88); }
+.poly-float[data-over-board] { opacity: .64; }
+.poly-float .poly-mini { display: flex; }
+.poly-float .poly-mini-cell { width: var(--drag-cell-width); height: var(--drag-cell-height); }
+.poly-float .poly-mini-cell.filled { border: 1px solid var(--shade); box-shadow: inset 2px 2px var(--light), inset -2px -2px var(--shade); }
+.poly-room[data-dragging], .poly-room[data-dragging] button { cursor: grabbing; user-select: none; }
+.poly-room[data-dragging] .poly-cell[data-selected] { background: #293a40; border-color: #3c5050; box-shadow: inset 1px 1px #34494b; filter: none; }
+.poly-room[data-dragging] .poly-cell[data-selected]::before { content: none; }
+@media (max-width: 950px) { .poly-station { grid-template-columns: minmax(0,1.28fr) minmax(188px,1fr); } }
+@media (max-width: 750px) { .poly-rack { display: grid; } .poly-tools { grid-row: 2; padding: 7px 8px 0; } #poly-tray { grid-row: 3; } .poly-station { grid-template-columns: minmax(0,1fr); gap: 10px; } #poly-tray { grid-template-columns: repeat(4,minmax(0,1fr)); } .poly-frame { width: min(calc(100% - 26px),335px); margin-top: 11px; } .poly-tools { justify-content: center; } .poly-tools button { max-width: 180px; } }
+@media (max-width: 450px) { .poly-stagebar { padding: 7px 8px; } .poly-stagebar h2 { gap: 5px; font-size: .97rem; } #poly-stages { gap: 3px; } #poly-stages li { width: 18px; height: 18px; } #poly-tray { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 5px; padding: 8px; } .poly-room button.poly-piece { min-height: 54px; } .poly-frame { width: min(calc(100% - 22px),290px); padding: 6px; } .poly-board-foot { margin-bottom: 8px; } }

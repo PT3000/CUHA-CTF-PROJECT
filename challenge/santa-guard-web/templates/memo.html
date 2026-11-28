@@ -1,0 +1,8 @@
+{% from "workshop_ui.html" import icon %}
+<aside class="memo-clipboard archive-memo" aria-labelledby="archive-memo-title">
+  <h2 id="archive-memo-title">{{ icon('memo') }} 당직 인수인계 포스트잇</h2>
+  <img class="memo-image" src="{{ url_for('memo_file') }}" width="692" height="410" alt="당직 인수인계 포스트잇">
+  <p>“당직 계정은 종이 한가운데 두 줄로 적어 뒀어. 잉크가 이렇게 옅었나?”</p>
+  <a class="memo-download" href="{{ url_for('memo_file', download='1') }}">포스트잇 원본 받기</a>
+  <details class="work-hint"><summary>이미지 분석 힌트</summary><p>PNG 원본의 색상 채널을 하나씩 흑백으로 확인하세요. 파랑(B) 채널에서 레벨의 검은점과 흰점을 가까이 옮기면 작은 밝기 차이가 커집니다.</p></details>
+</aside>

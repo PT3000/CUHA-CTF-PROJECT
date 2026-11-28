@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% from "workshop_ui.html" import icon, heading %}
+{% block title %}긴급 공지 · 산타의 비밀 창고{% endblock %}
+{% block body %}
+<section class="work-view">
+  {{ heading('공방 게시판', 'notice', '12월 24일 · 야간 공지') }}
+  <div class="notice-board">
+    <article class="notice-paper">
+      <span class="pinned-label">{{ icon('notice') }} 긴급 공지</span>
+      <h2>마지막 배송 조사 안내</h2>
+      <p>북쪽 노선의 마지막 배송 기록이 봉인됐습니다. 관리자 권한으로 <strong class="record-id">N-07</strong> 창고를 정리하면 조사 기록이 열립니다.</p>
+      <p>자료실 로그인 화면에 야간 당직자가 남긴 포스트잇이 있습니다.</p>
+      <a class="work-action" href="{{ url_for('admin_login') }}">관리자 자료실 열기 {{ icon('key') }}</a>
+    </article>
+  </div>
+</section>
+{% endblock %}

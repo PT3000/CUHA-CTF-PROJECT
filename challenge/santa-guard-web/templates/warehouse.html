@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% from "workshop_ui.html" import icon, heading %}
+{% block title %}산타의 창고 정리 · 산타의 비밀 창고{% endblock %}
+{% block head_assets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='warehouse.css') }}">
+<script src="{{ url_for('static', filename='warehouse.js') }}" defer></script>
+{% endblock %}
+{% block body %}
+<section class="work-view archive-view poly-room" id="poly-game" data-game='{{ game|tojson }}' data-endpoint="{{ url_for('warehouse') }}">
+  {{ heading('산타의 창고 정리', 'inventory', '북쪽 노선 N-07') }}
+  <div class="poly-stagebar">
+    <h2><span id="poly-stage-text">{{ game.stage }}단계</span> <span id="poly-stage-name"></span></h2>
+    <ol id="poly-stages" aria-label="창고 정리 진행">
+      {% for n in range(1, 5) %}<li data-step="{{ n }}">{{ n }}</li>{% endfor %}
+    </ol>
+  </div>
+  <div class="poly-station">
+    <div class="poly-worktop">
+      <div class="poly-readout"><h3>창고 배치도</h3><span id="poly-board-size"></span></div>
+      <div class="poly-frame">
+        <div id="poly-board" role="group" aria-label="창고 배치도" aria-describedby="poly-instructions"></div>
+      </div>
+      <div class="poly-board-foot">
+        <span id="poly-area"></span>
+        <span id="poly-fixed-key" hidden><i class="poly-key-tile" aria-hidden="true"></i> 고정 화물</span>
+      </div>
+    </div>
+    <section class="poly-rack" aria-labelledby="poly-tray-title">
+      <div class="poly-readout"><h3 id="poly-tray-title">{{ icon('gift') }} 선물 블록</h3><span id="poly-count"></span></div>
+      <div id="poly-tray" role="group" aria-label="선물 블록 선택"></div>
+      <div class="poly-tools">
+        <button id="poly-rotate" type="button" disabled><span aria-hidden="true">↻</span> 90° 회전</button>
+        <button id="poly-remove" type="button" disabled>꺼내기</button>
+      </div>
+    </section>
+  </div>
+  <div class="poly-console">
+    <p id="poly-instructions">선물 블록을 끌어와 점선 위치에 놓으세요. 놓은 블록을 판 밖으로 끌어다 놓으면 선물 목록으로 돌아갑니다.</p>
+    <details><summary>조작 방법</summary><p>놓은 블록도 잡은 자리에서 다시 끌어 옮길 수 있어요. 터치로는 블록을 선택한 뒤 놓을 위치의 왼쪽 위 칸을 눌러도 됩니다. 선택한 블록은 회전하거나 꺼낼 수 있습니다. 키보드로는 블록을 선택한 뒤 방향키로 칸을 이동하고 Enter로 놓으세요. R은 회전, Esc는 선택 해제입니다.</p></details>
+    <p id="poly-status" role="status" aria-live="polite"></p>
+    <button id="poly-reload" type="button" hidden>저장 상태 다시 불러오기</button>
+  </div>
+  <noscript>퍼즐을 조작하려면 브라우저에서 자바스크립트를 켜 주세요.</noscript>
+</section>
+{% endblock %}

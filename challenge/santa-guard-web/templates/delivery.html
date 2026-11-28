@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "workshop_ui.html" import icon, heading %}
+{% block title %}배송 기록 · 산타의 비밀 창고{% endblock %}
+{% block body %}
+<section class="work-view">
+  {{ heading('배송 기록', 'delivery', '12월 24일 · 야간 배차') }}
+  <section class="work-panel">
+    <div class="work-panel-title"><h2>{{ icon('notice') }} 썰매 출고 목록</h2><span>{{ records|length }}건</span></div>
+    <ol class="quest-list">
+      {% for record in records %}
+      {% set finished = record.status == '배송 완료' %}
+      <li data-delivery-id="{{ record.id }}" data-finished="{{ 1 if finished else 0 }}">
+        <span class="quest-icon">{{ icon('delivery' if finished else 'inventory' if record.id == 'N-12' else 'gift') }}</span>
+        <div class="quest-name"><span class="record-id">{{ record.id }}</span><h3>{{ record.route }} 노선</h3><p>{{ record.mark }} 포장</p></div>
+        <span class="quest-status {{ 'completed' if finished else 'investigate' if record.id == 'N-07' else 'queued' }}">{{ record.status }}</span>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+</section>
+{% endblock %}

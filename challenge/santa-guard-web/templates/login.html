@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}직원 로그인 · 산타의 비밀 창고{% endblock %}
+{% block body %}
+<div class="login-shell">
+  <article class="login-card" aria-labelledby="login-title">
+    <div class="window-title">
+      <span class="pix-icon icon-key" aria-hidden="true"></span>
+      <h1 id="login-title">직원 로그인</h1>
+      <span class="window-bars" aria-hidden="true"></span>
+    </div>
+    <div class="login-content">
+      {% if error %}<p class="notice error inline-notice" role="alert">{{ error }}</p>{% endif %}
+      <form class="stack" method="post" action="{{ url_for('login') }}">
+        <input type="hidden" name="_csrf" value="{{ csrf }}">
+        <label>직원 아이디
+          <input name="employee_id" required maxlength="60" autocomplete="username" spellcheck="false">
+        </label>
+        <label>비밀번호
+          <input name="password" type="password" required maxlength="128" autocomplete="current-password">
+        </label>
+        <button class="login-submit" type="submit"><span aria-hidden="true" class="pixel-cursor"></span>로그인</button>
+      </form>
+      <button id="chat-help" class="text-button help" type="button">ELF-01에게 첫 근무 물어보기</button>
+    </div>
+  </article>
+</div>
+{% endblock %}
+{% block overlay %}
+<div class="chat-dock">
+  <section id="guard-panel" class="floating-chat" aria-labelledby="guard-title" hidden>
+    <div class="chat-head">
+      <img class="avatar" src="{{ url_for('static', filename='pixel/portrait.png') }}" width="48" height="48" alt="">
+      <div><h2 id="guard-title">ELF-01 · AI 경비원</h2><p class="chat-online">온라인</p></div>
+      <button id="chat-close" class="text-button chat-close" type="button" aria-label="채팅창 닫기"><span aria-hidden="true">×</span></button>
+    </div>
+    <div id="messages" class="messages" role="log" aria-live="polite" aria-label="경비원 대화"></div>
+    <p id="chat-status" class="chat-status" role="status" hidden></p>
+    <details id="handoff-notes" class="handoff-notes" hidden>
+      <summary>ELF-01의 인수인계 수첩</summary>
+      <p id="handoff-note-text" class="msg"></p>
+    </details>
+    <div class="chat-options"><button id="chat-reset" class="text-button" type="button">대화 초기화</button></div>
+    <form id="chat-form" class="chat-form">
+      <label for="question" class="sr-only">경비원에게 질문</label>
+      <input id="question" name="question" maxlength="1000" required placeholder="경비원에게 질문하기…" autocomplete="off">
+      <button type="submit">보내기</button>
+    </form>
+  </section>
+  <button id="chat-toggle" class="chat-toggle" type="button" aria-label="ELF-01 경비원과 대화" aria-expanded="false" aria-controls="guard-panel">
+    <span class="npc-label" aria-hidden="true">ELF-01 <i></i></span>
+    <img class="npc-sprite" src="{{ url_for('static', filename='pixel/elf.png') }}" width="64" height="80" alt="">
+  </button>
+</div>
+{% endblock %}
